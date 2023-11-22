@@ -1,5 +1,8 @@
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pkl_smkn1mejayan/model/absen.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +18,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeView extends State<HomePage> {
+  // input
+  var isWFH;
+
   late String currentTime;
   late String currentDate;
 
@@ -22,7 +28,7 @@ class _HomeView extends State<HomePage> {
   void initState() {
     super.initState();
     updateDateTime();
-    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+    Timer.periodic(const Duration(seconds: 60), (Timer timer) {
       updateDateTime();
     });
   }
@@ -36,6 +42,13 @@ class _HomeView extends State<HomePage> {
       currentTime = formattedTime;
       currentDate = formattedDate;
     });
+  }
+
+  String getDay() {
+    var now = DateTime.now();
+    var formatter = DateFormat('EEEE', 'id_ID');
+    var hari = formatter.format(now);
+    return hari;
   }
 
   @override
@@ -68,6 +81,7 @@ class _HomeView extends State<HomePage> {
                     style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: textColor),
                   ),
                   Card(
+                    elevation: 5,
                     margin: const EdgeInsets.only(top: 15),
                     child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -83,7 +97,7 @@ class _HomeView extends State<HomePage> {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 5),
                                   child: Text(
-                                    widget.box.read('dataLogin')['detail_user'][0]['tempat_dudi'],
+                                    widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['tempat_dudi'],
                                     style: const TextStyle(
                                       fontSize: 20,
                                       color: textColor,
@@ -96,35 +110,139 @@ class _HomeView extends State<HomePage> {
                           ),
                         )),
                   ),
-                  const Card(
+                  Card(
+                    elevation: 5,
                     margin: EdgeInsets.only(top: 15),
                     child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         child: SizedBox(
                           width: 330,
                           child: Center(
                             child: Column(
                               children: [
                                 Text(
-                                  "Senin",
-                                  style: TextStyle(color: textColor, fontWeight: FontWeight.w600, fontSize: 15),
+                                  getDay(),
+                                  style: const TextStyle(color: textColor, fontWeight: FontWeight.w600, fontSize: 18),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 5),
-                                  child: Text(
-                                    "Jam Masuk",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: textColor,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                )
+                                    padding: const EdgeInsets.symmetric(vertical: 5),
+                                    child: Column(
+                                      children: [
+                                        const Text(
+                                          'Jam Masuk',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: textColor,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        Text(
+                                          widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['jam_pkl']
+                                              [getDay().toLowerCase()],
+                                          style:
+                                              const TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
+                                        ),
+                                        const Text(
+                                          'Jam Keluar',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: textColor,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        Text(
+                                          widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['jam_pkl']
+                                              ['ji_${getDay().toLowerCase()}'],
+                                          style:
+                                              const TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
+                                        ),
+                                      ],
+                                    ))
                               ],
                             ),
                           ),
                         )),
-                  )
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(top: 15),
+                      child: SizedBox(
+                          width: 330,
+                          child: FormBuilder(
+                            child: Column(
+                              children: [
+                                Card(
+                                    margin: EdgeInsets.zero,
+                                    elevation: 5,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                                      child: FormBuilderCheckbox(
+                                        title: const Text("Work From Home", style: TextStyle(
+                                          color: textColor,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold
+                                        ),),
+                                        name: "wfh",
+                                        onChanged: (value) {
+                                          setState(() {
+                                            isWFH = value ?? false;
+                                          });
+                                        },
+                                      ),
+                                    )),
+                                ElevatedButton(onPressed: () async {
+                                  var absensi = await Absen.sendAbsen(isWFH);
+                                  print(absensi);
+                                  if(absensi == 500){
+                                    if (context.mounted) {
+                                      ArtSweetAlert.show(
+                                        context: context,
+                                        artDialogArgs: ArtDialogArgs(
+                                          type: ArtSweetAlertType.danger,
+                                          title: "Gagal!",
+                                          text: "Ada kesalahan server!",
+                                        ),
+                                      );
+                                    }
+                                  }else if(absensi['absen']['success']){
+                                    if(absensi['absen']['status'] == 2){
+                                      if (context.mounted) {
+                                        ArtSweetAlert.show(
+                                          context: context,
+                                          artDialogArgs: ArtDialogArgs(
+                                            type: ArtSweetAlertType.warning,
+                                            title: "Berhasil Absen!",
+                                            text: absensi['absen']['message'],
+                                          ),
+                                        );
+                                      }
+                                    }else if(absensi['absen']['status'] == 1 || absensi['absen']['success'] == 4){
+                                      if (context.mounted) {
+                                        ArtSweetAlert.show(
+                                          context: context,
+                                          artDialogArgs: ArtDialogArgs(
+                                            type: ArtSweetAlertType.success,
+                                            title: "Berhasil Absen!",
+                                            text: absensi['absen']['message'],
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  }else{
+                                    if (context.mounted) {
+                                      ArtSweetAlert.show(
+                                        context: context,
+                                        artDialogArgs: ArtDialogArgs(
+                                          type: ArtSweetAlertType.danger,
+                                          title: "Gagal Absen!",
+                                          text: absensi['absen']['message'],
+                                        ),
+                                      );
+                                    }
+                                  }
+                                }, child: Text("Absen"))
+                              ],
+                            ),
+                          )))
                 ],
               ),
             ),
