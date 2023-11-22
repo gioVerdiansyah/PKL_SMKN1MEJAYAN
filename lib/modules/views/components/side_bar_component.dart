@@ -20,7 +20,7 @@ class SideBar extends StatelessWidget {
         children: [
           DrawerHeader(
               decoration: BoxDecoration(color: Colors.green),
-              child: Text(box.read('dataLogin')['user']['name'],
+              child: Text(box.read('dataLogin')['user']['name'] ?? "",
                 style: TextStyle(fontSize: 25),
                 textAlign: TextAlign.center,
               )),

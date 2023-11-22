@@ -7,10 +7,11 @@ class AppRoute {
   static GetStorage box = GetStorage();
   static String INITIAL = hasLogin();
 
-  static String hasLogin(){
-    if(box.read('dataLogin')['user'] != null){
+  static String hasLogin() {
+    var dataLogin = box.read('dataLogin');
+    if (dataLogin != null) {
       return HomePage.routeName;
-    }else{
+    } else {
       return LoginPage.routeName;
     }
   }

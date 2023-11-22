@@ -2,7 +2,7 @@ import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:pkl_smkn1mejayan/model/absen.dart';
+import 'package:pkl_smkn1mejayan/model/absen_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -23,13 +23,19 @@ class _HomeView extends State<HomePage> {
 
   late String currentTime;
   late String currentDate;
+  late Timer timer;
 
   @override
   void initState() {
     super.initState();
     updateDateTime();
-    Timer.periodic(const Duration(seconds: 60), (Timer timer) {
-      updateDateTime();
+    // Use a Timer.periodic and store it in a class variable
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      if (mounted) {
+        updateDateTime();
+      } else {
+        t.cancel();
+      }
     });
   }
 
@@ -38,10 +44,19 @@ class _HomeView extends State<HomePage> {
     final formattedTime = DateFormat.Hm().format(now);
     final formattedDate = DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(now);
 
-    setState(() {
-      currentTime = formattedTime;
-      currentDate = formattedDate;
-    });
+    if (mounted) {
+      setState(() {
+        currentTime = formattedTime;
+        currentDate = formattedDate;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    // Cancel the timer in the dispose method
+    timer.cancel();
+    super.dispose();
   }
 
   String getDay() {
@@ -97,7 +112,7 @@ class _HomeView extends State<HomePage> {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 5),
                                   child: Text(
-                                    widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['tempat_dudi'],
+                                    widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['tempat_dudi'] ?? "",
                                     style: const TextStyle(
                                       fontSize: 20,
                                       color: textColor,
@@ -138,7 +153,7 @@ class _HomeView extends State<HomePage> {
                                         ),
                                         Text(
                                           widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['jam_pkl']
-                                              [getDay().toLowerCase()],
+                                              [getDay().toLowerCase()] ?? "",
                                           style:
                                               const TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
                                         ),
@@ -152,7 +167,7 @@ class _HomeView extends State<HomePage> {
                                         ),
                                         Text(
                                           widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['jam_pkl']
-                                              ['ji_${getDay().toLowerCase()}'],
+                                              ['ji_${getDay().toLowerCase()}'] ?? "",
                                           style:
                                               const TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
                                         ),
@@ -215,7 +230,7 @@ class _HomeView extends State<HomePage> {
                                           ),
                                         );
                                       }
-                                    }else if(absensi['absen']['status'] == 1 || absensi['absen']['success'] == 4){
+                                    }else if(absensi['absen']['status'] == 1 || absensi['absen']['status'] == 4){
                                       if (context.mounted) {
                                         ArtSweetAlert.show(
                                           context: context,
