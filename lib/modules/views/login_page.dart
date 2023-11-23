@@ -39,12 +39,12 @@ class _LoginView extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                'images/Logo_SMK.png',
+                                'assets/images/Logo_SMK.png',
                                 width: 75,
                                 height: 75,
                               ),
                               Image.asset(
-                                'images/LOGO-RPL.png',
+                                'assets/images/jurusan/RPL.png',
                                 width: 75,
                                 height: 75,
                               ),

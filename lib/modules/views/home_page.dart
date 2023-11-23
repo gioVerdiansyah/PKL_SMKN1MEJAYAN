@@ -5,7 +5,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:pkl_smkn1mejayan/model/absen_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'dart:async';
 
 class HomePage extends StatefulWidget {
@@ -88,11 +87,11 @@ class _HomeView extends State<HomePage> {
               child: Column(
                 children: [
                   Text(
-                    currentTime ?? "",
+                    currentTime,
                     style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: textColor),
                   ),
                   Text(
-                    currentDate ?? "",
+                    currentDate,
                     style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: textColor),
                   ),
                   Card(
@@ -112,7 +111,9 @@ class _HomeView extends State<HomePage> {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 5),
                                   child: Text(
-                                    widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['tempat_dudi'] ?? "",
+                                    widget.box.read('dataLogin') != null
+                                        ? widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['tempat_dudi']
+                                        : "",
                                     style: const TextStyle(
                                       fontSize: 20,
                                       color: textColor,
@@ -127,7 +128,7 @@ class _HomeView extends State<HomePage> {
                   ),
                   Card(
                     elevation: 5,
-                    margin: EdgeInsets.only(top: 15),
+                    margin: const EdgeInsets.only(top: 15),
                     child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: SizedBox(
@@ -152,8 +153,10 @@ class _HomeView extends State<HomePage> {
                                           ),
                                         ),
                                         Text(
-                                          widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['jam_pkl']
-                                              [getDay().toLowerCase()] ?? "",
+                                          widget.box.read('dataLogin') != null
+                                              ? widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']
+                                                  ['jam_pkl'][getDay().toLowerCase()]
+                                              : "",
                                           style:
                                               const TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
                                         ),
@@ -166,8 +169,10 @@ class _HomeView extends State<HomePage> {
                                           ),
                                         ),
                                         Text(
-                                          widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['jam_pkl']
-                                              ['ji_${getDay().toLowerCase()}'] ?? "",
+                                          widget.box.read('dataLogin') != null
+                                              ? widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']
+                                                  ['jam_pkl']['ji_${getDay().toLowerCase()}']
+                                              : "",
                                           style:
                                               const TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
                                         ),
@@ -179,7 +184,7 @@ class _HomeView extends State<HomePage> {
                         )),
                   ),
                   Container(
-                      margin: EdgeInsets.only(top: 15),
+                      margin: const EdgeInsets.only(top: 15),
                       child: SizedBox(
                           width: 330,
                           child: FormBuilder(
@@ -191,11 +196,10 @@ class _HomeView extends State<HomePage> {
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 50),
                                       child: FormBuilderCheckbox(
-                                        title: const Text("Work From Home", style: TextStyle(
-                                          color: textColor,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold
-                                        ),),
+                                        title: const Text(
+                                          "Work From Home",
+                                          style: TextStyle(color: textColor, fontSize: 15, fontWeight: FontWeight.bold),
+                                        ),
                                         name: "wfh",
                                         onChanged: (value) {
                                           setState(() {
@@ -204,57 +208,75 @@ class _HomeView extends State<HomePage> {
                                         },
                                       ),
                                     )),
-                                ElevatedButton(onPressed: () async {
-                                  var absensi = await Absen.sendAbsen(isWFH);
-                                  print(absensi);
-                                  if(absensi == 500){
-                                    if (context.mounted) {
-                                      ArtSweetAlert.show(
-                                        context: context,
-                                        artDialogArgs: ArtDialogArgs(
-                                          type: ArtSweetAlertType.danger,
-                                          title: "Gagal!",
-                                          text: "Ada kesalahan server!",
-                                        ),
-                                      );
-                                    }
-                                  }else if(absensi['absen']['success']){
-                                    if(absensi['absen']['status'] == 2){
-                                      if (context.mounted) {
-                                        ArtSweetAlert.show(
-                                          context: context,
-                                          artDialogArgs: ArtDialogArgs(
-                                            type: ArtSweetAlertType.warning,
-                                            title: "Berhasil Absen!",
-                                            text: absensi['absen']['message'],
-                                          ),
-                                        );
-                                      }
-                                    }else if(absensi['absen']['status'] == 1 || absensi['absen']['status'] == 4){
-                                      if (context.mounted) {
-                                        ArtSweetAlert.show(
-                                          context: context,
-                                          artDialogArgs: ArtDialogArgs(
-                                            type: ArtSweetAlertType.success,
-                                            title: "Berhasil Absen!",
-                                            text: absensi['absen']['message'],
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  }else{
-                                    if (context.mounted) {
-                                      ArtSweetAlert.show(
-                                        context: context,
-                                        artDialogArgs: ArtDialogArgs(
-                                          type: ArtSweetAlertType.danger,
-                                          title: "Gagal Absen!",
-                                          text: absensi['absen']['message'],
-                                        ),
-                                      );
-                                    }
-                                  }
-                                }, child: Text("Absen"))
+                                Container(
+                                  margin: const EdgeInsets.only(top: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      ElevatedButton.icon(
+                                          icon: Icon(Icons.login),
+                                          onPressed: () async {
+                                            var absensi = await Absen.sendAbsen(isWFH);
+                                            print(absensi);
+                                            if (absensi == 500) {
+                                              if (context.mounted) {
+                                                ArtSweetAlert.show(
+                                                  context: context,
+                                                  artDialogArgs: ArtDialogArgs(
+                                                    type: ArtSweetAlertType.danger,
+                                                    title: "Gagal!",
+                                                    text: "Ada kesalahan server!",
+                                                  ),
+                                                );
+                                              }
+                                            } else if (absensi['absen']['success']) {
+                                              if (absensi['absen']['status'] == 2) {
+                                                if (context.mounted) {
+                                                  ArtSweetAlert.show(
+                                                    context: context,
+                                                    artDialogArgs: ArtDialogArgs(
+                                                      type: ArtSweetAlertType.warning,
+                                                      title: "Berhasil Absen!",
+                                                      text: absensi['absen']['message'],
+                                                    ),
+                                                  );
+                                                }
+                                              } else if (absensi['absen']['status'] == 1 || absensi['absen']['status'] == 4) {
+                                                if (context.mounted) {
+                                                  ArtSweetAlert.show(
+                                                    context: context,
+                                                    artDialogArgs: ArtDialogArgs(
+                                                      type: ArtSweetAlertType.success,
+                                                      title: "Berhasil Absen!",
+                                                      text: absensi['absen']['message'],
+                                                    ),
+                                                  );
+                                                }
+                                              }
+                                            } else {
+                                              if (context.mounted) {
+                                                ArtSweetAlert.show(
+                                                  context: context,
+                                                  artDialogArgs: ArtDialogArgs(
+                                                    type: ArtSweetAlertType.danger,
+                                                    title: "Gagal Absen!",
+                                                    text: absensi['absen']['message'],
+                                                  ),
+                                                );
+                                              }
+                                            }
+                                          },
+                                          label: Padding(padding: EdgeInsets.all(10.5),child: const Text("Absen"),)),
+                                      ElevatedButton.icon(style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(
+                                          Color.fromRGBO(239,80,107,1)
+                                      ))
+                                          ,onPressed: ()
+                                      {}, 
+                                          icon: Icon(Icons.logout), 
+                                          label: Padding(padding: EdgeInsets.all(10.5),child: Text("Pulang")),)
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           )))

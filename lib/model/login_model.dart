@@ -9,25 +9,24 @@ class PostLoginModel {
 
   static Future sendRequest(String username, String password) async {
     try {
-    const String loginEndpoint = "/login";
-    String apiUrl = PostLoginModel.apiUrl;
-    final Uri url = Uri.parse('$apiUrl$loginEndpoint');
+      const String loginEndpoint = "/login";
+      String apiUrl = PostLoginModel.apiUrl;
+      final Uri url = Uri.parse('$apiUrl$loginEndpoint');
 
-    var response = await http.post(url,
-        headers: {"Content-Type": "application/json", 'x-api-key': dotenv.get("API_KEY")},
-        body: json.encode({
-          'email': username,
-          'pa'
-              'sswor'
-              'd': password
-        }));
+      var response = await http.post(url,
+          headers: {"Content-Type": "application/json", 'x-api-key': dotenv.get("API_KEY")},
+          body: json.encode({
+            'email': username,
+            'password': password
+          }));
 
-    if (json.decode(response.body)['success']) {
-      var dataLogin = json.decode(response.body);
-      box.write('dataLogin', dataLogin);
-    }
-    return json.decode(response.body)['success'];
+      if (json.decode(response.body)['success']) {
+        var dataLogin = json.decode(response.body);
+        box.write('dataLogin', dataLogin);
+      }
+      return json.decode(response.body)['success'];
     } catch (e) {
+      print('Error: ${e}');
       return 500;
     }
   }
