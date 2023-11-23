@@ -5,7 +5,7 @@ import 'package:pkl_smkn1mejayan/modules/views/login_page.dart';
 
 class AppRoute {
   static GetStorage box = GetStorage();
-  static String INITIAL = hasLogin();
+  static String INITIAL = LoginPage.routeName;
 
   static String hasLogin() {
     var dataLogin = box.read('dataLogin');

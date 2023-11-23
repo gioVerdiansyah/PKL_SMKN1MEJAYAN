@@ -68,10 +68,11 @@ class _HomeView extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     const textColor = Color.fromRGBO(55, 73, 87, 1);
+
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(
-          "images/Logo_SMK.png",
+          "assets/images/Logo_SMK.png",
           width: 45,
           height: 45,
         ),
@@ -161,7 +162,7 @@ class _HomeView extends State<HomePage> {
                                               const TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
                                         ),
                                         const Text(
-                                          'Jam Keluar',
+                                          'Jam Istirahat',
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: textColor,
@@ -218,6 +219,7 @@ class _HomeView extends State<HomePage> {
                                           onPressed: () async {
                                             var absensi = await Absen.sendAbsen(isWFH);
                                             print(absensi);
+                                            print(absensi);
                                             if (absensi == 500) {
                                               if (context.mounted) {
                                                 ArtSweetAlert.show(
@@ -266,14 +268,68 @@ class _HomeView extends State<HomePage> {
                                               }
                                             }
                                           },
-                                          label: Padding(padding: EdgeInsets.all(10.5),child: const Text("Absen"),)),
-                                      ElevatedButton.icon(style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(
-                                          Color.fromRGBO(239,80,107,1)
-                                      ))
-                                          ,onPressed: ()
-                                      {}, 
-                                          icon: Icon(Icons.logout), 
-                                          label: Padding(padding: EdgeInsets.all(10.5),child: Text("Pulang")),)
+                                          label: Padding(
+                                            padding: EdgeInsets.all(10.5),
+                                            child: const Text("Absen"),
+                                          )),
+                                      ElevatedButton.icon(
+                                        style: ButtonStyle(
+                                            backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(239, 80, 107, 1))),
+                                        onPressed: () async {
+                                          var absensi = await Absen.sendAbsenPulang(isWFH);
+                                          print(absensi);
+                                          print(absensi);
+                                          if (absensi == 500) {
+                                            if (context.mounted) {
+                                              ArtSweetAlert.show(
+                                                context: context,
+                                                artDialogArgs: ArtDialogArgs(
+                                                  type: ArtSweetAlertType.danger,
+                                                  title: "Gagal!",
+                                                  text: "Ada kesalahan server!",
+                                                ),
+                                              );
+                                            }
+                                          } else if (absensi['absen']['success']) {
+                                            if (absensi['absen']['status'] == 2) {
+                                              if (context.mounted) {
+                                                ArtSweetAlert.show(
+                                                  context: context,
+                                                  artDialogArgs: ArtDialogArgs(
+                                                    type: ArtSweetAlertType.warning,
+                                                    title: "Berhasil Absen!",
+                                                    text: absensi['absen']['message'],
+                                                  ),
+                                                );
+                                              }
+                                            } else if (absensi['absen']['status'] == 1 || absensi['absen']['status'] == 4) {
+                                              if (context.mounted) {
+                                                ArtSweetAlert.show(
+                                                  context: context,
+                                                  artDialogArgs: ArtDialogArgs(
+                                                    type: ArtSweetAlertType.success,
+                                                    title: "Berhasil Absen!",
+                                                    text: absensi['absen']['message'],
+                                                  ),
+                                                );
+                                              }
+                                            }
+                                          } else {
+                                            if (context.mounted) {
+                                              ArtSweetAlert.show(
+                                                context: context,
+                                                artDialogArgs: ArtDialogArgs(
+                                                  type: ArtSweetAlertType.danger,
+                                                  title: "Gagal Absen!",
+                                                  text: absensi['absen']['message'],
+                                                ),
+                                              );
+                                            }
+                                          }
+                                        },
+                                        icon: Icon(Icons.logout),
+                                        label: Padding(padding: EdgeInsets.all(10.5), child: Text("Pulang")),
+                                      )
                                     ],
                                   ),
                                 )

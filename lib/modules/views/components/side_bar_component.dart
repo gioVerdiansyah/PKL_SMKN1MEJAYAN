@@ -5,18 +5,25 @@ import 'package:pkl_smkn1mejayan/routes/app_route.dart';
 class SideBar extends StatelessWidget {
   SideBar({super.key});
   static final box = GetStorage();
-  final user = box.read('dataLogin')['user'];
-  final detailUser = box.read('dataLogin')['user']['detail_user'];
 
 
   @override
   Widget build(BuildContext context) {
+    late final user;
+    late final detailUser;
     void NavigasiKe(routeName){
       if(ModalRoute.of(context)?.settings.name != routeName) {
         Navigator.pushNamed(context, routeName);
       }
     }
 
+    try{
+      user = box.read('dataLogin')['user'] != null ? box.read('dataLogin')['user'] : "";
+      detailUser = box.read('dataLogin')['user']['detail_user'] != null ? box.read('dataLogin')['user']['detail_user']
+          : "";
+    }catch(e){
+
+    }
     return Drawer(
       child: ListView(
         children: [
@@ -26,7 +33,7 @@ class SideBar extends StatelessWidget {
                 child: Row(
                   children: [
                     Image.asset(
-                      'images/jurusan/${box.read('dataLogin')['user']['detail_user']['jurusan']}.png',
+                      'assets/images/jurusan/${box.read('dataLogin')['user']['detail_user']['jurusan']}.png',
                       width: 75,
                       height: 75,
                     ),
@@ -38,8 +45,8 @@ class SideBar extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            box.read('dataLogin')['user']['name'],
-                            style: TextStyle(fontSize: box.read('dataLogin')['user']['name'].length * 3.8),
+                            user['name'],
+                            style: TextStyle(fontSize: user['name'].length * 3.8),
                             textAlign: TextAlign.left,
                           ),
                           const SizedBox(height: 10),
