@@ -16,6 +16,7 @@ class Absen {
 
       return json.decode(response.body);
     } catch (e) {
+      print(e);
       return 500;
     }
   }  static Future sendAbsenPulang(bool? isWFH) async {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pkl_smkn1mejayan/model/absen_model.dart';
+import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
@@ -70,15 +71,7 @@ class _HomeView extends State<HomePage> {
     const textColor = Color.fromRGBO(55, 73, 87, 1);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset(
-          "assets/images/Logo_SMK.png",
-          width: 45,
-          height: 45,
-        ),
-        centerTitle: true,
-        toolbarHeight: 60,
-      ),
+      appBar: AppBarComponent(),
       drawer: SideBar(),
       body: Column(
         children: [
@@ -112,9 +105,8 @@ class _HomeView extends State<HomePage> {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 5),
                                   child: Text(
-                                    widget.box.read('dataLogin') != null
-                                        ? widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['tempat_dudi']
-                                        : "",
+                                    widget.box.read('dataLogin')?['user']?['detail_user']?['detail_pkl']?['tempat_dudi']
+                                        ?? "",
                                     style: const TextStyle(
                                       fontSize: 20,
                                       color: textColor,
@@ -154,12 +146,9 @@ class _HomeView extends State<HomePage> {
                                           ),
                                         ),
                                         Text(
-                                          widget.box.read('dataLogin') != null
-                                              ? widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']
-                                                  ['jam_pkl'][getDay().toLowerCase()]
-                                              : "",
-                                          style:
-                                              const TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
+                                          widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']
+                                          ['jam_pkl'][getDay().toLowerCase()] ?? "00:00 - 00:00",
+                                          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
                                         ),
                                         const Text(
                                           'Jam Istirahat',
@@ -170,10 +159,9 @@ class _HomeView extends State<HomePage> {
                                           ),
                                         ),
                                         Text(
-                                          widget.box.read('dataLogin') != null
-                                              ? widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']
-                                                  ['jam_pkl']['ji_${getDay().toLowerCase()}']
-                                              : "",
+                                          widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']
+                                                  ['jam_pkl']?['ji_${getDay().toLowerCase()}']
+                                              ?? "00:00 - 00:00",
                                           style:
                                               const TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
                                         ),
@@ -217,8 +205,11 @@ class _HomeView extends State<HomePage> {
                                       ElevatedButton.icon(
                                           icon: Icon(Icons.login),
                                           onPressed: () async {
+                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                              content: const Text('Processing Data'),
+                                              backgroundColor: Colors.green.shade300,
+                                            ));
                                             var absensi = await Absen.sendAbsen(isWFH);
-                                            print(absensi);
                                             print(absensi);
                                             if (absensi == 500) {
                                               if (context.mounted) {
@@ -276,8 +267,11 @@ class _HomeView extends State<HomePage> {
                                         style: ButtonStyle(
                                             backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(239, 80, 107, 1))),
                                         onPressed: () async {
+                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                            content: const Text('Processing Data'),
+                                            backgroundColor: Colors.green.shade300,
+                                          ));
                                           var absensi = await Absen.sendAbsenPulang(isWFH);
-                                          print(absensi);
                                           print(absensi);
                                           if (absensi == 500) {
                                             if (context.mounted) {

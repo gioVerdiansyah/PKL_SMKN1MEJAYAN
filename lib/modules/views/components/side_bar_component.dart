@@ -72,6 +72,11 @@ class SideBar extends StatelessWidget {
             onTap: () {
               NavigasiKe(AppRoute.homeRoute);
             },
+          ),ListTile(
+            title: const Text("Izin"),
+            onTap: () {
+              NavigasiKe(AppRoute.izinRoute);
+            },
           ),
         ],
       ),

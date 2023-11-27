@@ -70,7 +70,7 @@ class _LoginView extends State<LoginPage> {
                     ),
                   ),
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 65, vertical: 25),
+                    padding: const EdgeInsets.symmetric(horizontal: 65, vertical: 5),
                     child: FormBuilder(
                       key: widget._formKey,
                       child: Column(
@@ -166,9 +166,9 @@ class _LoginView extends State<LoginPage> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 5),
                           Container(
-                            width: size.width * 0.80,
+                            width: size.width * 0.50,
                             alignment: Alignment.center,
                             child: GestureDetector(
                               onTap: () => {
@@ -188,8 +188,6 @@ class _LoginView extends State<LoginPage> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 18),
-                          const SizedBox(height: 20),
                         ],
                       ),
                     ),

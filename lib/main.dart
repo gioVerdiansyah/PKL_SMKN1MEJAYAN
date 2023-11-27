@@ -119,7 +119,8 @@ class PosisitionDeniedModal extends StatelessWidget {
         body: Center(
           child: AlertDialog(
             title: const Text("Lokasi telah di tolak!!!"),
-            content: const Text("Anda tidak dapat me akses aplikasi!\nKlik OK untuk Merestart"),
+            content: const Text("Anda tidak dapat me akses aplikasi!\nCoba nyalakan lokasi anda lalu setujui aplikasi "
+                "untuk mengakses aplikasi anda\nKlik OK untuk Merestart"),
             actions: [
               TextButton(
                 onPressed: () async {
