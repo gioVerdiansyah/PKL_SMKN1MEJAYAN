@@ -29,7 +29,7 @@ class Absen {
       return json.decode(response.body);
     } catch (e) {
       print(e);
-      return 500;
+      return {'absen': {'success':false, 'message': "Ada kesalahan server!"}};
     }
   }
 }

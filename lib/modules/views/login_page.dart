@@ -121,18 +121,7 @@ class _LoginView extends State<LoginPage> {
                                   ));
                                   var loginResponse = await PostLoginModel.sendRequest(
                                       widget.usernameController.text, widget.passwordController.text);
-                                  if (loginResponse == 500) {
-                                    if (context.mounted) {
-                                      ArtSweetAlert.show(
-                                        context: context,
-                                        artDialogArgs: ArtDialogArgs(
-                                          type: ArtSweetAlertType.danger,
-                                          title: "Gagal!",
-                                          text: "Ada kesalahan server!",
-                                        ),
-                                      );
-                                    }
-                                  } else if (loginResponse) {
+                                  if (loginResponse['login']['success']) {
                                     if (context.mounted) {
                                       Navigator.pushAndRemoveUntil(
                                         context,
@@ -147,7 +136,7 @@ class _LoginView extends State<LoginPage> {
                                         artDialogArgs: ArtDialogArgs(
                                           type: ArtSweetAlertType.danger,
                                           title: "Gagal!",
-                                          text: "Nama/Email atau Password salah!",
+                                          text: loginResponse['login']['message'],
                                         ),
                                       );
                                     }

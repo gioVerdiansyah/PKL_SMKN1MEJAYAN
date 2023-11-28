@@ -15,38 +15,48 @@ class PostLoginModel {
 
       var response = await http.post(url,
           headers: {"Content-Type": "application/json", 'x-api-key': dotenv.get("API_KEY")},
-          body: json.encode({
-            'email': username,
-            'password': password
-          }));
+          body: json.encode({'email': username, 'password': password}));
 
-      if (json.decode(response.body)['success']) {
-        var dataLogin = json.decode(response.body);
-        box.write('dataLogin', dataLogin);
+      var decodedResponse = json.decode(response.body);
+
+      if (decodedResponse['login']['success']) {
+        var dataLogin = decodedResponse;
+        box.write('dataLogin', dataLogin['login']);
+        print(box.read('dataLogin'));
       }
-      return json.decode(response.body)['success'];
+
+      return decodedResponse;
     } catch (e) {
       print('Error: ${e}');
-      return 500;
+      return {
+        'login': {'success': false, 'message': "Ada Kesalahan Server!"}
+      };
     }
   }
 
-  static Future<bool> checkLogin() async {
-    String apiUrl = dotenv.get("API_URL");
-    const String checkLoginEndpoint = '/check-login';
-    Uri url = Uri.parse('$apiUrl$checkLoginEndpoint');
+  static Future checkLogin() async {
+    try {
+      String apiUrl = dotenv.get("API_URL");
+      const String checkLoginEndpoint = '/check-login';
+      Uri url = Uri.parse('$apiUrl$checkLoginEndpoint');
 
-    Map<String, String> params = {
-      'remember_token': PostLoginModel.box.read("dataLogin")["user"]["remember_token"],
-    };
+      Map<String, String> params = {
+        'remember_token': PostLoginModel.box.read("dataLogin")["user"]["remember_token"],
+      };
 
-    url = url.replace(queryParameters: params);
+      url = url.replace(queryParameters: params);
 
-    final response = await http.get(
-      url,
-      headers: {"Content-Type": "application/json"},
-    );
+      final response = await http.get(
+        url,
+        headers: {"Content-Type": "application/json"},
+      );
 
-    return json.decode(response.body)['success'];
+      return json.decode(response.body);
+    } catch (e) {
+      print(e);
+      return {
+        'login': {'success': false, 'message': "Ada kesalahan server!"}
+      };
+    }
   }
 }

@@ -211,18 +211,7 @@ class _HomeView extends State<HomePage> {
                                             ));
                                             var absensi = await Absen.sendAbsen(isWFH);
                                             print(absensi);
-                                            if (absensi == 500) {
-                                              if (context.mounted) {
-                                                ArtSweetAlert.show(
-                                                  context: context,
-                                                  artDialogArgs: ArtDialogArgs(
-                                                    type: ArtSweetAlertType.danger,
-                                                    title: "Gagal!",
-                                                    text: "Ada kesalahan server!",
-                                                  ),
-                                                );
-                                              }
-                                            } else if (absensi['absen']['success']) {
+                                            if (absensi['absen']['success']) {
                                               if (absensi['absen']['status'] == 2) {
                                                 if (context.mounted) {
                                                   ArtSweetAlert.show(
