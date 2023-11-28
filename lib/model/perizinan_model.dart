@@ -8,8 +8,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 class PerizinanModel {
   static GetStorage box = GetStorage();
 
-  static Future sendPost(String alasan, String awalIzin, String akhirIzin, List<PlatformFile>? bukti, String tipeIzin)
-  async {
+  static Future sendPost(
+      String alasan, String awalIzin, String akhirIzin, List<PlatformFile>? bukti, String tipeIzin) async {
     try {
       final Uri url = Uri.parse('${dotenv.get('API_URL')}/absensi/izin');
       var request = http.MultipartRequest('POST', url);
@@ -44,7 +44,24 @@ class PerizinanModel {
       return json.decode(response.body);
     } catch (e) {
       print(e);
-      return {'izin': {'success': false, 'message': 'Ada kesalahan server!'}};
+      return {
+        'izin': {'success': false, 'message': 'Ada kesalahan server!'}
+      };
+    }
+  }
+
+  static Future getData() async {
+    try {
+      final Uri url = Uri.parse('${dotenv.get('API_URL')}/absensi/izin/get/${box.read('dataLogin')['user']['id']}');
+      var response = await http.get(url, headers: {"Content-Type": 'applicatio/json', "x-api-key": dotenv.get('API_KEY')});
+
+      var data = json.decode(response.body);
+      print(data);
+      return data;
+    } catch (e) {
+      return {
+        'izin': {'success': false, 'message': "Ada kesalahan server"}
+      };
     }
   }
 }

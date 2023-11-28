@@ -8,6 +8,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:pkl_smkn1mejayan/model/perizinan_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
+import 'package:pkl_smkn1mejayan/modules/views/riwayat_izin_page.dart';
+import 'package:pkl_smkn1mejayan/routes/app_route.dart';
 
 class IzinPage extends StatefulWidget {
   const IzinPage({super.key});
@@ -45,7 +47,9 @@ class _IzinView extends State<IzinPage> {
                     margin: const EdgeInsets.fromLTRB(25, 0, 25, 0),
                     color: Colors.green,
                     child: InkWell(
-                      onTap: () async {},
+                      onTap: () async {
+                        Navigator.pushNamed(context, AppRoute.riwayatIzinRoute);
+                      },
                       child: const SizedBox(
                         width: double.infinity,
                         height: 40,
@@ -205,14 +209,13 @@ class _IzinView extends State<IzinPage> {
                     child: InkWell(
                       onTap: () async {
                         if (_formKey.currentState?.saveAndValidate() ?? false) {
-                          _formKey.currentState?.reset();
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: const Text('Processing Data'),
                             backgroundColor: Colors.green.shade300,
                           ));
                           var response = await PerizinanModel.sendPost(alasanController.text, awalIzinController.text,
                               akhirIzinController.text, buktiController, tipeIzinController);
-                          if (await response['izin']['success']) {
+                          if (response['izin']['success']) {
                             if (context.mounted) {
                               ArtSweetAlert.show(
                                 context: context,
@@ -235,6 +238,7 @@ class _IzinView extends State<IzinPage> {
                               );
                             }
                           }
+                          _formKey.currentState?.reset();
                         }
                       },
                       child: const SizedBox(
