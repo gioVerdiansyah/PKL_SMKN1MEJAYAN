@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pkl_smkn1mejayan/modules/views/home_page.dart';
 import 'package:pkl_smkn1mejayan/modules/views/izin_page.dart';
+import 'package:pkl_smkn1mejayan/modules/views/jurnal_page.dart';
 import 'package:pkl_smkn1mejayan/modules/views/login_page.dart';
 import 'package:pkl_smkn1mejayan/modules/views/riwayat_izin_page.dart';
 
@@ -25,13 +26,13 @@ class AppRoute {
   static const String loginRoute = LoginPage.routeName;
   static const String izinRoute = IzinPage.routeName;
   static const String riwayatIzinRoute = RiwayatIzinPage.routeName;
-
-  //
+  static const String jurnalRoute = JurnalPage.routeName;
 
   static Map<String, WidgetBuilder> routes = {
     homeRoute: (context) => HomePage(),
     loginRoute: (context) => LoginPage(),
-    izinRoute: (context) => IzinPage(),
-    riwayatIzinRoute: (context) => RiwayatIzinPage()
+    izinRoute: (context) => const IzinPage(),
+    riwayatIzinRoute: (context) => const RiwayatIzinPage(),
+    jurnalRoute: (context) => JurnalPage()
   };
 }

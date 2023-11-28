@@ -9,21 +9,14 @@ class SideBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late final user;
-    late final detailUser;
+    final user = box.read('dataLogin')['user'] ?? "";
+    final detailUser = box.read('dataLogin')['user']['detail_user'] ?? "";
     void NavigasiKe(routeName){
       if(ModalRoute.of(context)?.settings.name != routeName) {
         Navigator.pushNamed(context, routeName);
       }
     }
 
-    try{
-      user = box.read('dataLogin')['user'] != null ? box.read('dataLogin')['user'] : "";
-      detailUser = box.read('dataLogin')['user']['detail_user'] != null ? box.read('dataLogin')['user']['detail_user']
-          : "";
-    }catch(e){
-
-    }
     return Drawer(
       child: ListView(
         children: [
@@ -37,7 +30,7 @@ class SideBar extends StatelessWidget {
                       width: 75,
                       height: 75,
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +48,7 @@ class SideBar extends StatelessWidget {
                             width: 150.0,
                             color: Colors.black,
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             '${detailUser['tingkat']} ${detailUser['jurusan']} ${detailUser['kelas']}',
                             style: const TextStyle(fontSize: 20),
@@ -76,6 +69,11 @@ class SideBar extends StatelessWidget {
             title: const Text("Izin"),
             onTap: () {
               NavigasiKe(AppRoute.izinRoute);
+            },
+          ),ListTile(
+            title: const Text("Jurnal"),
+            onTap: () {
+              NavigasiKe(AppRoute.jurnalRoute);
             },
           ),
         ],
