@@ -1,20 +1,17 @@
 import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
+import 'package:pkl_smkn1mejayan/routes/api_route.dart';
 
 class PostLoginModel {
   static final box = GetStorage();
-  static String apiUrl = dotenv.get("API_URL");
 
   static Future sendRequest(String username, String password) async {
     try {
-      const String loginEndpoint = "/login";
-      String apiUrl = PostLoginModel.apiUrl;
-      final Uri url = Uri.parse('$apiUrl$loginEndpoint');
+      final Uri url = ApiRoute.loginRoute;
 
       var response = await http.post(url,
-          headers: {"Content-Type": "application/json", 'x-api-key': dotenv.get("API_KEY")},
+          headers: {"Content-Type": "application/json", 'x-api-key': ApiRoute.API_KEY},
           body: json.encode({'email': username, 'password': password}));
 
       var decodedResponse = json.decode(response.body);
@@ -36,9 +33,7 @@ class PostLoginModel {
 
   static Future checkLogin() async {
     try {
-      String apiUrl = dotenv.get("API_URL");
-      const String checkLoginEndpoint = '/check-login';
-      Uri url = Uri.parse('$apiUrl$checkLoginEndpoint');
+      Uri url = ApiRoute.checkLoginRoute;
 
       Map<String, String> params = {
         'remember_token': PostLoginModel.box.read("dataLogin")["user"]["remember_token"],

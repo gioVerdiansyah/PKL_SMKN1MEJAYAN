@@ -152,7 +152,7 @@ class _IzinView extends State<IzinPage> {
                                   ]),
                                 ),
                               ),
-                              const SizedBox(width: 8), // Menambahkan jarak antara dua picker
+                              const SizedBox(width: 8),
                               Flexible(
                                 child: FormBuilderDateTimePicker(
                                   name: 'akhir-tanggal-izin',
@@ -214,7 +214,7 @@ class _IzinView extends State<IzinPage> {
                             backgroundColor: Colors.green.shade300,
                           ));
                           var response = await PerizinanModel.sendPost(alasanController.text, awalIzinController.text,
-                              akhirIzinController.text, buktiController, tipeIzinController);
+                              akhirIzinController.text, buktiController!, tipeIzinController);
                           if (response['izin']['success']) {
                             if (context.mounted) {
                               ArtSweetAlert.show(

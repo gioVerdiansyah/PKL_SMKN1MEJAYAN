@@ -1,19 +1,18 @@
 import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:form_builder_file_picker/form_builder_file_picker.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:pkl_smkn1mejayan/routes/api_route.dart';
 
 class PerizinanModel {
   static GetStorage box = GetStorage();
 
   static Future sendPost(
-      String alasan, String awalIzin, String akhirIzin, List<PlatformFile>? bukti, String tipeIzin) async {
+      String alasan, String awalIzin, String akhirIzin, List<PlatformFile> bukti, String tipeIzin) async {
     try {
-      final Uri url = Uri.parse('${dotenv.get('API_URL')}/absensi/izin');
+      final Uri url = ApiRoute.izinPostRoute;
       var request = http.MultipartRequest('POST', url);
-      request.headers['x-api-key'] = dotenv.get('API_KEY');
+      request.headers['x-api-key'] = ApiRoute.API_KEY;
 
       // Tambahkan data string
       request.fields['name'] = box.read('dataLogin')['user']['name'].toString();
@@ -23,7 +22,7 @@ class PerizinanModel {
       request.fields['akhir_izin'] = akhirIzin;
 
       // Tambahkan file
-      if (bukti != null && bukti.isNotEmpty) {
+      if (bukti.isNotEmpty) {
         var file = bukti[0]; // Ambil elemen pertama dari daftar file
         var fileStream = http.ByteStream.fromBytes(file.bytes!);
         var length = file.size;
@@ -52,8 +51,8 @@ class PerizinanModel {
 
   static Future getData() async {
     try {
-      final Uri url = Uri.parse('${dotenv.get('API_URL')}/absensi/izin/get/${box.read('dataLogin')['user']['id']}');
-      var response = await http.get(url, headers: {"Content-Type": 'applicatio/json', "x-api-key": dotenv.get('API_KEY')});
+      final Uri url = Uri.parse('${ApiRoute.izinGetRoute}/${box.read('dataLogin')['user']['id']}');
+      var response = await http.get(url, headers: {"Content-Type": 'applicatio/json', "x-api-key": ApiRoute.API_KEY});
 
       var data = json.decode(response.body);
       print(data);

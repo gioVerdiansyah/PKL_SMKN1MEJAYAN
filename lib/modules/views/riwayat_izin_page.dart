@@ -58,6 +58,7 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
                     itemCount: snapshot.data['izin']['data'].length,
                     itemBuilder: (context, index) {
                       var dataIzin = snapshot.data['izin']['data'][index];
+                      var i = index + 1;
                       print(dataIzin);
                       return Container(
                         child: Card(
@@ -67,7 +68,7 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("${dataIzin['tipe_izin']}",
+                                Text("#${i} ${dataIzin['tipe_izin']}",
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold
