@@ -76,7 +76,8 @@ class _IzinView extends State<IzinPage> {
                         const Text(
                           "Perizinan",
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
                           ),
                         ),
                         FormBuilderTextField(

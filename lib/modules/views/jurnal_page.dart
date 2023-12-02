@@ -36,6 +36,12 @@ class _JurnalView extends State<JurnalPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      const Center(
+                        child: Text('Isi Jurnal', style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        )),
+                      ),
                       Container(
                         width: double.infinity,
                         child: FormBuilderFilePicker(

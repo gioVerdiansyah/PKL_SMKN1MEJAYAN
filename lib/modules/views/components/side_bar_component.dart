@@ -1,5 +1,7 @@
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pkl_smkn1mejayan/modules/views/login_page.dart';
 import 'package:pkl_smkn1mejayan/routes/app_route.dart';
 
 class SideBar extends StatelessWidget {
@@ -74,6 +76,39 @@ class SideBar extends StatelessWidget {
             title: const Text("Jurnal"),
             onTap: () {
               NavigasiKe(AppRoute.jurnalRoute);
+            },
+          ),ListTile(
+            title: const Text("Ubah Password"),
+            onTap: () {
+              NavigasiKe(AppRoute.ubahPassRoute);
+            },
+          ),ListTile(
+            title: const Text("Logout"),
+            onTap: () async {
+              ArtDialogResponse response = await ArtSweetAlert.show(
+                  barrierDismissible: false,
+                  context: context,
+                  artDialogArgs: ArtDialogArgs(
+                      denyButtonText: "Batal",
+                      title: "Apakah Anda yakin?",
+                      confirmButtonText: "Ya, logout",
+                      type: ArtSweetAlertType.warning
+                  )
+              );
+
+              if(response==null) {
+                return;
+              }
+
+              if(response.isTapConfirmButton) {
+                GetStorage().erase();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                      (route) => false,
+                );
+                return;
+              }
             },
           ),
         ],

@@ -10,4 +10,5 @@ class ApiRoute{
   static final Uri izinPostRoute = Uri.parse('${dotenv.get('API_URL')}/absensi/izin');
   static final Uri izinGetRoute = Uri.parse('${dotenv.get('API_URL')}/absensi/izin/get');
   static final Uri jurnalPostRoute = Uri.parse('${dotenv.get('API_URL')}/jurnal');
+  static final Uri ubasPassPostRoute = Uri.parse('${dotenv.get('API_URL')}/ubah-pass');
 }

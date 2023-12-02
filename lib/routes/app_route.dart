@@ -7,6 +7,7 @@ import 'package:pkl_smkn1mejayan/modules/views/izin_page.dart';
 import 'package:pkl_smkn1mejayan/modules/views/jurnal_page.dart';
 import 'package:pkl_smkn1mejayan/modules/views/login_page.dart';
 import 'package:pkl_smkn1mejayan/modules/views/riwayat_izin_page.dart';
+import 'package:pkl_smkn1mejayan/modules/views/ubah_pass_page.dart';
 
 class AppRoute {
   static GetStorage box = GetStorage();
@@ -27,12 +28,14 @@ class AppRoute {
   static const String izinRoute = IzinPage.routeName;
   static const String riwayatIzinRoute = RiwayatIzinPage.routeName;
   static const String jurnalRoute = JurnalPage.routeName;
+  static const String ubahPassRoute = UbahPassPage.routeName;
 
   static Map<String, WidgetBuilder> routes = {
     homeRoute: (context) => HomePage(),
     loginRoute: (context) => LoginPage(),
     izinRoute: (context) => const IzinPage(),
     riwayatIzinRoute: (context) => const RiwayatIzinPage(),
-    jurnalRoute: (context) => JurnalPage()
+    jurnalRoute: (context) => JurnalPage(),
+    ubahPassRoute: (context) => UbahPassPage(),
   };
 }
