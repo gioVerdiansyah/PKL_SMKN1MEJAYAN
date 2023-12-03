@@ -74,7 +74,6 @@ class _HomeView extends State<HomePage> {
   Widget build(BuildContext context) {
     const textColor = Color.fromRGBO(55, 73, 87, 1);
     final positionData = widget.box.read('position');
-    print(positionData);
 
     return Scaffold(
       appBar: const AppBarComponent(),
@@ -280,38 +279,25 @@ class _HomeView extends State<HomePage> {
                                               ));
                                               var absensi = await Absen.sendAbsenPulang(isWFH);
                                               print(absensi);
-                                              if (absensi['absen']['success']) {
-                                                if (absensi['absen']['status'] == 2) {
-                                                  if (context.mounted) {
-                                                    ArtSweetAlert.show(
-                                                      context: context,
-                                                      artDialogArgs: ArtDialogArgs(
-                                                        type: ArtSweetAlertType.warning,
-                                                        title: "Berhasil Absen!",
-                                                        text: absensi['absen']['message'],
-                                                      ),
-                                                    );
-                                                  }
-                                                } else if (absensi['absen']['status'] == 1 ||
+                                              if (absensi['absen']['status'] == 1 ||
                                                     absensi['absen']['status'] == 4) {
                                                   if (context.mounted) {
                                                     ArtSweetAlert.show(
                                                       context: context,
                                                       artDialogArgs: ArtDialogArgs(
                                                         type: ArtSweetAlertType.success,
-                                                        title: "Berhasil Absen!",
+                                                        title: "Berhasil Absen Pulang!",
                                                         text: absensi['absen']['message'],
                                                       ),
                                                     );
                                                   }
-                                                }
-                                              } else {
+                                                }else {
                                                 if (context.mounted) {
                                                   ArtSweetAlert.show(
                                                     context: context,
                                                     artDialogArgs: ArtDialogArgs(
                                                       type: ArtSweetAlertType.danger,
-                                                      title: "Gagal Absen!",
+                                                      title: "Gagal Absen Pulang!",
                                                       text: absensi['absen']['message'],
                                                     ),
                                                   );
@@ -381,7 +367,7 @@ class _HomeView extends State<HomePage> {
                                             Card(
                                               color: const Color.fromRGBO(252,198,43, 1),
                                               child: InkWell(
-                                                onTap: (){
+                                                onTap: ()async{
                                                   if (widget.box.read('hasErrorAbsen') == null || !widget.box.read('hasErrorAbsen')) {
                                                     ArtSweetAlert.show(
                                                       context: context,
@@ -391,6 +377,48 @@ class _HomeView extends State<HomePage> {
                                                         text: "Anda belum mencoba absen secara biasa!",
                                                       ),
                                                     );
+                                                  }else{
+                                                    var absensi = await Absen.sendPaksa();
+                                                    print(absensi);
+                                                    if (absensi['absen']['success']) {
+                                                      if (absensi['absen']['status'] == 2) {
+                                                        if (context.mounted) {
+                                                          ArtSweetAlert.show(
+                                                            context: context,
+                                                            artDialogArgs: ArtDialogArgs(
+                                                              type: ArtSweetAlertType.warning,
+                                                              title: "Berhasil Absen!",
+                                                              text: absensi['absen']['message'],
+                                                            ),
+                                                          );
+                                                        }
+                                                      } else if (absensi['absen']['status'] == 1 ||
+                                                          absensi['absen']['status'] == 4) {
+                                                        if (context.mounted) {
+                                                          ArtSweetAlert.show(
+                                                            context: context,
+                                                            artDialogArgs: ArtDialogArgs(
+                                                              type: ArtSweetAlertType.success,
+                                                              title: "Berhasil Absen!",
+                                                              text: absensi['absen']['message'],
+                                                            ),
+                                                          );
+                                                        }
+                                                      }
+                                                    } else {
+                                                      if (context.mounted) {
+                                                        widget.box.write('hasErrorAbsen', true);
+                                                        print(widget.box.read('hasErrorAbsen'));
+                                                        ArtSweetAlert.show(
+                                                          context: context,
+                                                          artDialogArgs: ArtDialogArgs(
+                                                            type: ArtSweetAlertType.danger,
+                                                            title: "Gagal Absen!",
+                                                            text: absensi['absen']['message'],
+                                                          ),
+                                                        );
+                                                      }
+                                                    }
                                                   }
                                                 },
                                                 child: const SizedBox(
