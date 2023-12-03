@@ -5,7 +5,7 @@ import 'package:pkl_smkn1mejayan/modules/views/login_page.dart';
 import 'package:pkl_smkn1mejayan/routes/app_route.dart';
 
 class SideBar extends StatelessWidget {
-  SideBar({super.key});
+  const SideBar({super.key});
   static final box = GetStorage();
 
 

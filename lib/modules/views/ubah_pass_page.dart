@@ -7,7 +7,7 @@ import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart
 import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
 
 class UbahPassPage extends StatefulWidget {
-  UbahPassPage({super.key});
+  const UbahPassPage({super.key});
   static const String routeName = '/ubah-pass';
 
   @override
@@ -21,10 +21,10 @@ class _UbahPassView extends State<UbahPassPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(),
-      drawer: SideBar(),
+      appBar: const AppBarComponent(),
+      drawer: const SideBar(),
       body: Container(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: Center(
           child: Card(
             child: FormBuilder(
@@ -65,7 +65,7 @@ class _UbahPassView extends State<UbahPassPage> {
                           },
                         ])),
                     Card(
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       color: Colors.green,
                       child: InkWell(
                         onTap: () async {

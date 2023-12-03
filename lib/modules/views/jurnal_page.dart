@@ -8,7 +8,7 @@ import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart
 import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
 
 class JurnalPage extends StatefulWidget {
-  JurnalPage({super.key});
+  const JurnalPage({super.key});
   static const String routeName = '/jurnal';
 
   @override
@@ -22,12 +22,12 @@ class _JurnalView extends State<JurnalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(),
-      drawer: SideBar(),
+      appBar: const AppBarComponent(),
+      drawer: const SideBar(),
       body: ListView(
         children: [
           Container(
-            margin: EdgeInsets.all(20),
+            margin: const EdgeInsets.all(20),
             child: Card(
               child: FormBuilder(
                 key: _formKey,
@@ -42,7 +42,7 @@ class _JurnalView extends State<JurnalPage> {
                             fontWeight: FontWeight.bold
                         )),
                       ),
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: FormBuilderFilePicker(
                           name: "images",
@@ -123,7 +123,7 @@ class _JurnalView extends State<JurnalPage> {
                                 _formKey.currentState?.reset();
                               }
                             },
-                            child: SizedBox(
+                            child: const SizedBox(
                               width: double.infinity,
                               height: 40,
                               child: Center(

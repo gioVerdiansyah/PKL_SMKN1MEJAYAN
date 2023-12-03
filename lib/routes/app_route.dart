@@ -1,4 +1,3 @@
-import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -35,7 +34,7 @@ class AppRoute {
     loginRoute: (context) => LoginPage(),
     izinRoute: (context) => const IzinPage(),
     riwayatIzinRoute: (context) => const RiwayatIzinPage(),
-    jurnalRoute: (context) => JurnalPage(),
-    ubahPassRoute: (context) => UbahPassPage(),
+    jurnalRoute: (context) => const JurnalPage(),
+    ubahPassRoute: (context) => const UbahPassPage(),
   };
 }

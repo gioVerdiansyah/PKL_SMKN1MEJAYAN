@@ -24,7 +24,7 @@ class PostLoginModel {
 
       return decodedResponse;
     } catch (e) {
-      print('Error: ${e}');
+      print('Error: $e');
       return {
         'login': {'success': false, 'message': "Ada Kesalahan Server!"}
       };

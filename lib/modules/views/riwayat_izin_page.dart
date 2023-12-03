@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pkl_smkn1mejayan/model/perizinan_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
-import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
 
 class RiwayatIzinPage extends StatefulWidget {
   const RiwayatIzinPage({super.key});
@@ -31,7 +30,7 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(),
+      appBar: const AppBarComponent(),
       body: FutureBuilder(
         future: PerizinanModel.getData(),
         builder: (context, snapshot) {
@@ -62,13 +61,13 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
                       print(dataIzin);
                       return Container(
                         child: Card(
-                          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("#${i} ${dataIzin['tipe_izin']}",
+                                Text("#$i ${dataIzin['tipe_izin']}",
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold

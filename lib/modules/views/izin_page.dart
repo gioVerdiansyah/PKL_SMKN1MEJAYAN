@@ -8,7 +8,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:pkl_smkn1mejayan/model/perizinan_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
-import 'package:pkl_smkn1mejayan/modules/views/riwayat_izin_page.dart';
 import 'package:pkl_smkn1mejayan/routes/app_route.dart';
 
 class IzinPage extends StatefulWidget {
@@ -32,8 +31,8 @@ class _IzinView extends State<IzinPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(),
-      drawer: SideBar(),
+      appBar: const AppBarComponent(),
+      drawer: const SideBar(),
       body: Container(
           width: double.infinity,
           alignment: Alignment.center,
