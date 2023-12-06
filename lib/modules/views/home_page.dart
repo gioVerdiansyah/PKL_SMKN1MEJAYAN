@@ -1,5 +1,6 @@
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -8,6 +9,7 @@ import 'package:pkl_smkn1mejayan/model/absen_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'dart:async';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -45,7 +47,7 @@ class _HomeView extends State<HomePage> {
 
   void updateDateTime() {
     final now = DateTime.now();
-    final formattedTime = DateFormat.Hm().format(now);
+    final formattedTime = DateFormat.Hms().format(now);
     final formattedDate = DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(now);
 
     if (mounted) {
@@ -367,59 +369,12 @@ class _HomeView extends State<HomePage> {
                                             Card(
                                               color: const Color.fromRGBO(252,198,43, 1),
                                               child: InkWell(
-                                                onTap: ()async{
-                                                  if (widget.box.read('hasErrorAbsen') == null || !widget.box.read('hasErrorAbsen')) {
-                                                    ArtSweetAlert.show(
-                                                      context: context,
-                                                      artDialogArgs: ArtDialogArgs(
-                                                        type: ArtSweetAlertType.danger,
-                                                        title: "Gagal!",
-                                                        text: "Anda belum mencoba absen secara biasa!",
-                                                      ),
-                                                    );
-                                                  }else{
-                                                    var absensi = await Absen.sendPaksa();
-                                                    print(absensi);
-                                                    if (absensi['absen']['success']) {
-                                                      if (absensi['absen']['status'] == 2) {
-                                                        if (context.mounted) {
-                                                          ArtSweetAlert.show(
-                                                            context: context,
-                                                            artDialogArgs: ArtDialogArgs(
-                                                              type: ArtSweetAlertType.warning,
-                                                              title: "Berhasil Absen!",
-                                                              text: absensi['absen']['message'],
-                                                            ),
-                                                          );
-                                                        }
-                                                      } else if (absensi['absen']['status'] == 1 ||
-                                                          absensi['absen']['status'] == 4) {
-                                                        if (context.mounted) {
-                                                          ArtSweetAlert.show(
-                                                            context: context,
-                                                            artDialogArgs: ArtDialogArgs(
-                                                              type: ArtSweetAlertType.success,
-                                                              title: "Berhasil Absen!",
-                                                              text: absensi['absen']['message'],
-                                                            ),
-                                                          );
-                                                        }
-                                                      }
-                                                    } else {
-                                                      if (context.mounted) {
-                                                        widget.box.write('hasErrorAbsen', true);
-                                                        print(widget.box.read('hasErrorAbsen'));
-                                                        ArtSweetAlert.show(
-                                                          context: context,
-                                                          artDialogArgs: ArtDialogArgs(
-                                                            type: ArtSweetAlertType.danger,
-                                                            title: "Gagal Absen!",
-                                                            text: absensi['absen']['message'],
-                                                          ),
-                                                        );
-                                                      }
-                                                    }
-                                                  }
+                                                onTap: (){
+                                                  Uri absenTroubleUrl = Uri.parse('${dotenv.get('APP_URL')
+                                                  }/absen/trouble?user_id=${widget.box.read('dataLogin')
+                                                  ['user']['id']}&rm_token=${widget.box.read('dataLogin')
+                                                  ['user']['remember_token']}');
+                                                  launchUrl(absenTroubleUrl);
                                                 },
                                                 child: const SizedBox(
                                                   height: 40,

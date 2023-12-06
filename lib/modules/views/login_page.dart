@@ -141,12 +141,6 @@ class _LoginView extends State<LoginPage> {
                                       );
                                     }
                                   }
-                                  if (true) {
-                                    // Either invalidate using Form Key
-                                    widget._formKey.currentState?.fields['email']?.invalidate('Email already taken.');
-                                    // OR invalidate using Field Key
-                                    // _emailFieldKey.currentState?.invalidate('Email already taken.');
-                                  }
                                 }
                               },
                               child: const Text(
