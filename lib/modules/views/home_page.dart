@@ -9,7 +9,6 @@ import 'package:pkl_smkn1mejayan/model/absen_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'dart:async';
 
 import 'package:url_launcher/url_launcher.dart';

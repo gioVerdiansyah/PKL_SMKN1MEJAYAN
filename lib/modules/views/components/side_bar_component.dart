@@ -24,43 +24,41 @@ class SideBar extends StatelessWidget {
         children: [
           DrawerHeader(
               decoration: const BoxDecoration(color: Colors.green),
-              child: Card(
-                child: Row(
-                  children: [
-                    Image.asset(
-                      'assets/images/jurusan/${box.read('dataLogin')['user']['detail_user']['jurusan']}.png',
-                      width: 75,
-                      height: 75,
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/images/jurusan/${box.read('dataLogin')['user']['detail_user']['jurusan']}.png',
+                    width: 75,
+                    height: 75,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      verticalDirection: VerticalDirection.down,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          user['name'],
+                          style: TextStyle(fontSize: user['name'].length * 3.8, color: Colors.white),
+                          textAlign: TextAlign.left,
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          height: 2.0,
+                          width: 150.0,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          '${detailUser['tingkat']} ${detailUser['jurusan']} ${detailUser['kelas']}',
+                          style: const TextStyle(fontSize: 20, color: Colors.white),
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        verticalDirection: VerticalDirection.down,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            user['name'],
-                            style: TextStyle(fontSize: user['name'].length * 3.8),
-                            textAlign: TextAlign.left,
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            height: 2.0,
-                            width: 150.0,
-                            color: Colors.black,
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            '${detailUser['tingkat']} ${detailUser['jurusan']} ${detailUser['kelas']}',
-                            style: const TextStyle(fontSize: 20),
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               )),
           ListTile(
             title: const Text("Home"),
