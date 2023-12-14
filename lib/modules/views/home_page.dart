@@ -9,6 +9,7 @@ import 'package:pkl_smkn1mejayan/model/absen_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
 import 'package:intl/intl.dart';
+import 'package:pkl_smkn1mejayan/routes/app_route.dart';
 import 'dart:async';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -309,6 +310,28 @@ class _HomeView extends State<HomePage> {
                                             label: const Padding(padding: EdgeInsets.all(10.5), child: Text("Pulang")),
                                           )
                                         ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Card(
+                                        color: const Color.fromRGBO(252,198,43, 1),
+                                        child: InkWell(
+                                          onTap: (){
+                                            Navigator.pushNamed(context, AppRoute.editAbsenRoute);
+                                          },
+                                          child: const SizedBox(
+                                            height: 40,
+                                            width: double.infinity,
+                                            child: Center(
+                                              child: Text("Edit Absen", style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                                color: Colors.white,
+                                              )),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     Padding(

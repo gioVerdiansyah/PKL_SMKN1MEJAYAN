@@ -27,7 +27,7 @@ class SideBar extends StatelessWidget {
               child: Row(
                 children: [
                   Image.asset(
-                    'assets/images/jurusan/${box.read('dataLogin')['user']['detail_user']['jurusan']}.png',
+                    'assets/images/jurusan/${box.read('dataLogin')['user']['detail_user']['jurusan']['jurusan']}.png',
                     width: 75,
                     height: 75,
                   ),
@@ -51,7 +51,7 @@ class SideBar extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          '${detailUser['tingkat']} ${detailUser['jurusan']} ${detailUser['kelas']}',
+                          'XII ${detailUser['jurusan']['jurusan']}',
                           style: const TextStyle(fontSize: 20, color: Colors.white),
                           textAlign: TextAlign.left,
                         ),
