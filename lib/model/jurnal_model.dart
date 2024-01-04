@@ -41,4 +41,89 @@ class JurnalModel {
       };
     }
   }
+
+  static Future getData(Uri? changeAbsen) async {
+    try{
+      final Uri url = changeAbsen ?? Uri.parse("${ApiRoute.jurnalGetRoute}/${box.read('dataLogin')['user']['id']}");
+      var response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": ApiRoute.API_KEY
+        }
+      );
+
+      var data = json.decode(response.body);
+      print(data);
+      return data;
+    }catch(e){
+      return {
+        'jurnal': {
+          'success': false,
+          'message': "Ada kesalahan server!"
+        }
+      };
+    }
+  }
+  static Future getSpecificData(int id) async {
+    try{
+      final Uri url = Uri.parse("${ApiRoute.jurnalGetSpesificRoute}/$id");
+      var response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": ApiRoute.API_KEY
+        }
+      );
+
+      var data = json.decode(response.body);
+      print(data);
+      return data;
+    }catch(e){
+      return {
+        'jurnal': {
+          'success': false,
+          'message': "Ada kesalahan server!"
+        }
+      };
+    }
+  }
+
+  static Future editJurnal(int id, String kegiatan, List<PlatformFile>? bukti) async {
+    try {
+      final Uri url = Uri.parse("${ApiRoute.jurnalPutRoute}/$id");
+      var request = http.MultipartRequest('POST', url);
+      request.headers['x-api-key'] = ApiRoute.API_KEY;
+
+      request.fields['user_id'] = box.read('dataLogin')['user']['id'].toString();
+      request.fields['kegiatan'] = kegiatan;
+
+      print(kegiatan);
+
+      if (bukti != null) {
+        var file = bukti[0];
+        var fileStream = http.ByteStream.fromBytes(file.bytes!);
+        var length = file.size;
+
+        var multipartFile = http.MultipartFile(
+          'bukti',
+          fileStream,
+          length,
+          filename: file.name,
+        );
+
+        // Tambahkan file ke dalam request
+        request.files.add(multipartFile);
+      }
+
+      var response = await http.Response.fromStream(await request.send());
+      print(json.decode(response.body));
+      return json.decode(response.body);
+    } catch (e) {
+      print(e);
+      return {
+        'jurnal': {'success': false, 'message': 'Ada kesalahan server!'}
+      };
+    }
+  }
 }

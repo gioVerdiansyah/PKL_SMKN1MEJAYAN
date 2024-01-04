@@ -99,7 +99,7 @@ class SideBar extends StatelessWidget {
               }
 
               if(response.isTapConfirmButton) {
-                GetStorage().erase();
+                GetStorage().remove('dataLogin');
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => LoginPage()),
