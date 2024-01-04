@@ -130,7 +130,7 @@ class _IzinView extends State<IzinPage> {
                                   name: 'mulai-tanggal-izin',
                                   inputType: InputType.date,
                                   initialValue: DateTime.now(),
-                                  format: DateFormat('d-M-y'),
+                                  format: DateFormat('dd MMMM y', 'id_ID'),
                                   controller: awalIzinController,
                                   style: const TextStyle(
                                     color: Colors.grey,
@@ -158,7 +158,7 @@ class _IzinView extends State<IzinPage> {
                                   name: 'akhir-tanggal-izin',
                                   inputType: InputType.date,
                                   initialValue: DateTime.now(),
-                                  format: DateFormat('d-M-y'),
+                                  format: DateFormat('dd MMMM y', 'id_ID'),
                                   controller: akhirIzinController,
                                   style: const TextStyle(
                                     color: Colors.grey,

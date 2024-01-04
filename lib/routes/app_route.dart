@@ -3,7 +3,8 @@ import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:pkl_smkn1mejayan/modules/views/edit_absen_page.dart';
+import 'package:pkl_smkn1mejayan/modules/views/edit_pages/edit_absen_page.dart';
+import 'package:pkl_smkn1mejayan/modules/views/edit_pages/edit_izin_page.dart';
 import 'package:pkl_smkn1mejayan/modules/views/home_page.dart';
 import 'package:pkl_smkn1mejayan/modules/views/izin_page.dart';
 import 'package:pkl_smkn1mejayan/modules/views/jurnal_page.dart';
