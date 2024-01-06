@@ -1,9 +1,11 @@
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pkl_smkn1mejayan/model/login_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/home_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -155,18 +157,17 @@ class _LoginView extends State<LoginPage> {
                             alignment: Alignment.center,
                             child: GestureDetector(
                               onTap: () => {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //         const ForgetPasswordPage()))
+                                launchUrl(Uri.parse("${dotenv.get("APP_URL")}/password/reset"))
                               },
-                              child: const Text(
-                                'Forget password?',
-                                style: TextStyle(
-                                  color: Color(0xff939393),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
+                              child: const Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  'Lupa password?',
+                                  style: TextStyle(
+                                    color: Color(0xff939393),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),

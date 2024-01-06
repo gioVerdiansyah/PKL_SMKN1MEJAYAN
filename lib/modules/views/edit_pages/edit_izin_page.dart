@@ -226,7 +226,7 @@ class _IzinView extends State<EditIzinPage> {
                                             title: "Berhasil me-edit izin!",
                                             text: response['izin']['message'],
                                             onConfirm: (){
-                                              Navigator.pushNamed(context, AppRoute.riwayatIzinRoute);
+                                              Navigator.pushNamed(context, AppRoute.izinRoute);
                                             }
                                           ),
                                           barrierDismissible: false
@@ -244,7 +244,6 @@ class _IzinView extends State<EditIzinPage> {
                                         );
                                       }
                                     }
-                                    _formKey.currentState?.reset();
                                   }
                                 },
                                 child: const SizedBox(

@@ -149,7 +149,7 @@ class _EditJurnalView extends State<EditJurnalPage> {
                                                         title: "Berhasil mengisi jurnal!",
                                                         text: response['jurnal']['message'],
                                                         onConfirm: (){
-                                                          Navigator.pushNamed(context, AppRoute.riwayatJurnalRoute);
+                                                          Navigator.pushNamed(context, AppRoute.jurnalRoute);
                                                         }
                                                       ),
                                                       barrierDismissible: false
@@ -167,7 +167,6 @@ class _EditJurnalView extends State<EditJurnalPage> {
                                                     );
                                                   }
                                                 }
-                                                _formKey.currentState?.reset();
                                               }
                                             },
                                             child: const SizedBox(
