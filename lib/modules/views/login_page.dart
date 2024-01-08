@@ -46,7 +46,7 @@ class _LoginView extends State<LoginPage> {
                                 height: 75,
                               ),
                               Image.asset(
-                                'assets/images/jurusan/RPL.png',
+                                'assets/images/RPL.png',
                                 width: 75,
                                 height: 75,
                               ),

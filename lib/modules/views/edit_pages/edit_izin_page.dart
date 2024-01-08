@@ -1,5 +1,4 @@
 import 'package:art_sweetalert/art_sweetalert.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -11,7 +10,7 @@ import 'package:pkl_smkn1mejayan/routes/api_route.dart';
 import 'package:pkl_smkn1mejayan/routes/app_route.dart';
 
 class EditIzinPage extends StatefulWidget {
-  const EditIzinPage({required this.idIzin});
+  const EditIzinPage({super.key, required this.idIzin});
   static const String routeName = '/izin/edit';
   final idIzin;
 
@@ -22,20 +21,6 @@ class EditIzinPage extends StatefulWidget {
 class _IzinView extends State<EditIzinPage> {
   final _formKey = GlobalKey<FormBuilderState>();
 
-  Map izinData = {};
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<void> fetchData() async {
-    var data = await PerizinanModel.getData();
-    setState(() {
-      izinData = data['izin']['data'];
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +29,7 @@ class _IzinView extends State<EditIzinPage> {
         future: PerizinanModel.getSpecificData(widget.idIzin),
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting){
-            return Center(child: CircularProgressIndicator(),);
+            return const Center(child: CircularProgressIndicator(),);
           }else if(snapshot.hasError){
             return Center(child: Text("Error: ${snapshot.error}"),);
           }else{

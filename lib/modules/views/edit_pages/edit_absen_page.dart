@@ -6,7 +6,7 @@ import 'package:pkl_smkn1mejayan/model/absen_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
 
 class EditAbsenPage extends StatefulWidget {
-  EditAbsenPage({super.key});
+  const EditAbsenPage({super.key});
   static const String routeName = '/edit-absen';
 
   @override
@@ -34,7 +34,7 @@ class _EditAbsenView extends State<EditAbsenPage> {
                       child: FormBuilder(
                         key: _formKey,
                         child: Padding(
-                          padding: EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(15),
                           child: Column(
                             children: [
                               FormBuilderDropdown(

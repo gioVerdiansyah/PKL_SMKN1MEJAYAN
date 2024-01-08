@@ -5,14 +5,13 @@ import 'package:form_builder_file_picker/form_builder_file_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pkl_smkn1mejayan/model/jurnal_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
-import 'package:pkl_smkn1mejayan/modules/views/components/side_bar_component.dart';
 import 'package:pkl_smkn1mejayan/routes/app_route.dart';
 
 import '../../../routes/api_route.dart';
 
 
 class EditJurnalPage extends StatefulWidget {
-  const EditJurnalPage({required this.idJurnal});
+  const EditJurnalPage({super.key, required this.idJurnal});
   static const String routeName = '/jurnal/show';
 
   final int idJurnal;
@@ -37,7 +36,7 @@ class _EditJurnalView extends State<EditJurnalPage> {
             }else{
               var dataJurnal = snapshot.data['jurnal']['data'];
 
-              print("data Jurnal: ${dataJurnal}");
+              print("data Jurnal: $dataJurnal");
 
               List<PlatformFile>? buktiController;
               TextEditingController kegiatanController = TextEditingController(text: dataJurnal['kegiatan']);

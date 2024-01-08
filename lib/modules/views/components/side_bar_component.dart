@@ -26,8 +26,8 @@ class SideBar extends StatelessWidget {
               decoration: const BoxDecoration(color: Colors.green),
               child: Row(
                 children: [
-                  Image.asset(
-                    'assets/images/jurusan/${box.read('dataLogin')['user']['detail_user']['jurusan']['jurusan']}.png',
+                  Image.network(
+                    box.read('dataLogin')['user']['detail_user']['jurusan']['gambar'].toString(),
                     width: 75,
                     height: 75,
                   ),
@@ -39,19 +39,19 @@ class SideBar extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          user['name'],
+                          "${user['name']} (${user['detail_user']['absen']})",
                           style: TextStyle(fontSize: user['name'].length * 3.8, color: Colors.white),
                           textAlign: TextAlign.left,
                         ),
                         const SizedBox(height: 10),
                         Container(
                           height: 2.0,
-                          width: 150.0,
+                          width: 200.0,
                           color: Colors.white,
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'XII ${detailUser['jurusan']['jurusan']}',
+                          detailUser['kelas']['kelas'],
                           style: const TextStyle(fontSize: 20, color: Colors.white),
                           textAlign: TextAlign.left,
                         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pkl_smkn1mejayan/model/perizinan_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
+import 'package:pkl_smkn1mejayan/modules/views/components/pagination_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/edit_pages/edit_izin_page.dart';
 
 class RiwayatIzinPage extends StatefulWidget {
@@ -14,12 +15,13 @@ class RiwayatIzinPage extends StatefulWidget {
 
 class _RiwayatIzinView extends State<RiwayatIzinPage> {
   bool isExpanded = false;
+  Uri? changeIzin;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarComponent(),
       body: FutureBuilder(
-        future: PerizinanModel.getData(),
+        future: PerizinanModel.getData(changeIzin),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -27,7 +29,15 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
             return Text('Error: ${snapshot.error}');
           } else {
             print(snapshot.data);
-            return ((snapshot.data['izin']['data'] == null) || snapshot.data['izin']['data'].isEmpty)
+            var page = snapshot.data['izin']['data'];
+
+            void passingDownEvent(Uri url) {
+              setState(() {
+                changeIzin = url;
+              });
+            }
+
+            return ((snapshot.data['izin']['data']['data'] == null) || snapshot.data['izin']['data']['data'].isEmpty)
                 ? const Center(
                     child: Text("Belum ada riwayat izin"),
                   )
@@ -45,101 +55,107 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
                       ),
                       const SizedBox(height: 5),
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: snapshot.data['izin']['data'].length,
-                          itemBuilder: (context, index) {
-                            var dataIzin = snapshot.data['izin']['data'][index];
-                            var i = index + 1;
-                            String status;
-                            Color warnaStatus;
+                        child: ListView(children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            itemCount: snapshot.data['izin']['data']['data'].length,
+                            itemBuilder: (context, index) {
+                              var dataIzin = snapshot.data['izin']['data']['data'][index];
+                              var i = index + 1;
+                              String status;
+                              Color warnaStatus;
 
-                            if (dataIzin['status'] == '1') {
-                              warnaStatus = const Color.fromRGBO(21, 115, 71, 1);
-                              status = 'Disetujui';
-                            } else if (dataIzin['status'] == '2') {
-                              warnaStatus = const Color.fromRGBO(220, 53, 69, 1);
-                              status = 'Ditolak';
-                            } else {
-                              warnaStatus = const Color.fromRGBO(255, 202, 44, 1);
-                              status = 'Pending';
-                            }
+                              if (dataIzin['status'] == '1') {
+                                warnaStatus = const Color.fromRGBO(21, 115, 71, 1);
+                                status = 'Disetujui';
+                              } else if (dataIzin['status'] == '2') {
+                                warnaStatus = const Color.fromRGBO(220, 53, 69, 1);
+                                status = 'Ditolak';
+                              } else {
+                                warnaStatus = const Color.fromRGBO(255, 202, 44, 1);
+                                status = 'Pending';
+                              }
 
-                            print(dataIzin);
-                            return Container(
-                              child: Card(
-                                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("#$i ${dataIzin['tipe_izin']}",
-                                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                                          Row(
-                                            children: [
-                                              const Text("status: "),
-                                              Text(
-                                                status,
-                                                style: TextStyle(color: warnaStatus),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 7),
-                                        child: Container(
-                                          height: 1.0,
-                                          width: double.infinity,
-                                          color: Colors.green,
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            flex: 500,
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                              print(dataIzin);
+                              return Container(
+                                child: Card(
+                                  margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("#$i ${dataIzin['tipe_izin']}",
+                                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                            Row(
                                               children: [
+                                                const Text("status: "),
                                                 Text(
-                                            "${DateFormat('dd MMMM yyyy', 'id_ID').format(DateTime.parse(dataIzin['awal_izin']))} - ${DateFormat('dd MMMM yyyy', 'id_ID').format(DateTime.parse(dataIzin['akhir_izin']))}"),
-                                                const Padding(
-                                                  padding: EdgeInsets.only(top: 8),
-                                                  child:
-                                                      Text("Alasan Izin:", style: TextStyle(fontWeight: FontWeight.bold)),
+                                                  status,
+                                                  style: TextStyle(color: warnaStatus),
                                                 ),
-                                                DescriptionAlasan(alasan: dataIzin['alasan'])
                                               ],
-                                            ),
+                                            )
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 7),
+                                          child: Container(
+                                            height: 1.0,
+                                            width: double.infinity,
+                                            color: Colors.green,
                                           ),
-                                          if (dataIzin['status'] != '1')
-                                            ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (BuildContext context) => EditIzinPage(
-                                                                idIzin: dataIzin['id'],
-                                                              )));
-                                                },
-                                                style: const ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStatePropertyAll(Color.fromRGBO(255, 202, 44, 1))),
-                                                child: const Icon(Icons.edit_note)),
-                                        ],
-                                      )
-                                    ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              flex: 500,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                      "${DateFormat('dd MMMM yyyy', 'id_ID').format(DateTime.parse(dataIzin['awal_izin']))} - ${DateFormat('dd MMMM yyyy', 'id_ID').format(DateTime.parse(dataIzin['akhir_izin']))}"),
+                                                  const Padding(
+                                                    padding: EdgeInsets.only(top: 8),
+                                                    child: Text("Alasan Izin:",
+                                                        style: TextStyle(fontWeight: FontWeight.bold)),
+                                                  ),
+                                                  DescriptionAlasan(alasan: dataIzin['alasan'])
+                                                ],
+                                              ),
+                                            ),
+                                            if (dataIzin['status'] != '1')
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (BuildContext context) => EditIzinPage(
+                                                                  idIzin: dataIzin['id'],
+                                                                )));
+                                                  },
+                                                  style: const ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStatePropertyAll(Color.fromRGBO(255, 202, 44, 1))),
+                                                  child: const Icon(Icons.edit_note)),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
+                              );
+                            },
+                          ),
+                          if(page['prev_page_url'] != null || page['next_page_url'] != null)
+                            PaginationComponent(page: page, passingDownEvent: passingDownEvent)
+                        ]),
                       )
                     ],
                   );
@@ -150,21 +166,20 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
   }
 }
 
-
-class DescriptionAlasan extends StatefulWidget{
-  DescriptionAlasan({required this.alasan});
+class DescriptionAlasan extends StatefulWidget {
+  const DescriptionAlasan({super.key, required this.alasan});
   final String alasan;
 
   @override
   State<DescriptionAlasan> createState() => _DescriptionFragment();
 }
 
-class _DescriptionFragment extends State<DescriptionAlasan>{
+class _DescriptionFragment extends State<DescriptionAlasan> {
   bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
-  String alasan = widget.alasan;
+    String alasan = widget.alasan;
     return GestureDetector(
       onTap: () {
         setState(() {

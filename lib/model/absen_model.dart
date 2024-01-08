@@ -60,7 +60,7 @@ class Absen {
     }catch(e){
       return {
         'absen': {
-          'success': false, 'message': "Error: ${e}"
+          'success': false, 'message': "Error: $e"
         }
       };
     }

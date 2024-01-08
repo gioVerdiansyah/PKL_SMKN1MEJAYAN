@@ -50,9 +50,9 @@ class PerizinanModel {
     }
   }
 
-  static Future getData() async {
+  static Future getData(Uri? changeIzin) async {
     try {
-      final Uri url = Uri.parse('${ApiRoute.izinGetRoute}/${box.read('dataLogin')['user']['id']}');
+      final Uri url = changeIzin ?? Uri.parse('${ApiRoute.izinGetRoute}/${box.read('dataLogin')['user']['id']}');
       var response = await http.get(url, headers: {"Content-Type": 'applicatio/json', "x-api-key": ApiRoute.API_KEY});
 
       var data = json.decode(response.body);
