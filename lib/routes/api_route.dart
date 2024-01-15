@@ -17,6 +17,6 @@ class ApiRoute{
   static final Uri jurnalPutRoute = Uri.parse('${dotenv.get('API_URL')}/jurnal/edit');
   static final Uri jurnalGetRoute = Uri.parse('${dotenv.get('API_URL')}/jurnal/get');
   static final Uri jurnalGetSpesificRoute = Uri.parse('${dotenv.get('API_URL')}/jurnal/show');
-  static final Uri ubasPassPostRoute = Uri.parse('${dotenv.get('API_URL')}/ubah-pass');
+  static final Uri editProfileRoute = Uri.parse('${dotenv.get('API_URL')}/edit-profile');
   static final Uri downloadJurnalPdfRoute = Uri.parse('${dotenv.get('API_URL')}/print/jurnal');
 }

@@ -40,7 +40,7 @@ class _RiwayatJurnalView extends State<RiwayatJurnalPage> {
             return Text('Error: ${snapshot.error}');
           } else {
             print(snapshot.data);
-            var page = snapshot.data['jurnal']['data'];
+            var page = snapshot.data['data'];
 
             void passingDownEvent(Uri url){
               setState(() {
@@ -48,7 +48,7 @@ class _RiwayatJurnalView extends State<RiwayatJurnalPage> {
               });
             }
 
-            return ((snapshot.data['jurnal']['data']['data'] == null) || snapshot.data['jurnal']['data']['data'].isEmpty)
+            return ((snapshot.data['data']['data'] == null) || snapshot.data['data']['data'].isEmpty)
                 ? const Center(
                     child: Text("Belum ada riwayat jurnal PKL"),
                   )
@@ -80,9 +80,9 @@ class _RiwayatJurnalView extends State<RiwayatJurnalPage> {
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: const ClampingScrollPhysics(),
-                                itemCount: snapshot.data['jurnal']['data']['data'].length,
+                                itemCount: snapshot.data['data']['data'].length,
                                 itemBuilder: (context, index) {
-                                  var dataJurnal = snapshot.data['jurnal']['data']['data'][index];
+                                  var dataJurnal = snapshot.data['data']['data'][index];
                                   String status;
                                   Color warnaStatus;
 
@@ -149,7 +149,7 @@ class _RiwayatJurnalView extends State<RiwayatJurnalPage> {
                                                           ),
                                                         ),
                                                         child: Image.network("${ApiRoute.storageRoute}/${dataJurnal['bukti']}",
-                                                            width: 200),
+                                                            width: 150),
                                                       ),
                                                     ),
                                                     const Padding(

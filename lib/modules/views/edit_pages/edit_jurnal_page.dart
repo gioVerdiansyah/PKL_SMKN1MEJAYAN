@@ -34,7 +34,7 @@ class _EditJurnalView extends State<EditJurnalPage> {
             }else if(snapshot.hasError){
               return Text('Error: ${snapshot.error}');
             }else{
-              var dataJurnal = snapshot.data['jurnal']['data'];
+              var dataJurnal = snapshot.data['data'];
 
               List<PlatformFile>? buktiController;
               TextEditingController kegiatanController = TextEditingController(text: dataJurnal['kegiatan']);
@@ -137,14 +137,14 @@ class _EditJurnalView extends State<EditJurnalPage> {
                                                 var response = await JurnalModel.editJurnal(widget.idJurnal,kegiatanController
                                                     .text,
                                                     buktiController);
-                                                if (response['jurnal']['success']) {
+                                                if (response['success']) {
                                                   if (context.mounted) {
                                                     ArtSweetAlert.show(
                                                       context: context,
                                                       artDialogArgs: ArtDialogArgs(
                                                         type: ArtSweetAlertType.success,
                                                         title: "Berhasil mengisi jurnal!",
-                                                        text: response['jurnal']['message'],
+                                                        text: response['message'],
                                                         onConfirm: (){
                                                           Navigator.pushNamed(context, AppRoute.jurnalRoute);
                                                         }
@@ -159,7 +159,7 @@ class _EditJurnalView extends State<EditJurnalPage> {
                                                       artDialogArgs: ArtDialogArgs(
                                                         type: ArtSweetAlertType.danger,
                                                         title: "Gagal mengisi jurnal!",
-                                                        text: response['jurnal']['message'],
+                                                        text: response['message'],
                                                       ),
                                                     );
                                                   }

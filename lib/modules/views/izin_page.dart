@@ -215,14 +215,14 @@ class _IzinView extends State<IzinPage> {
                           ));
                           var response = await PerizinanModel.sendPost(alasanController.text, awalIzinController.text,
                               akhirIzinController.text, buktiController!, tipeIzinController);
-                          if (response['izin']['success']) {
+                          if (response['success']) {
                             if (context.mounted) {
                               ArtSweetAlert.show(
                                 context: context,
                                 artDialogArgs: ArtDialogArgs(
                                   type: ArtSweetAlertType.success,
                                   title: "Berhasil izin!",
-                                  text: response['izin']['message'],
+                                  text: response['message'],
                                 ),
                               );
                             }
@@ -233,7 +233,7 @@ class _IzinView extends State<IzinPage> {
                                 artDialogArgs: ArtDialogArgs(
                                   type: ArtSweetAlertType.danger,
                                   title: "Gagal izin!",
-                                  text: response['izin']['message'],
+                                  text: response['message'],
                                 ),
                               );
                             }

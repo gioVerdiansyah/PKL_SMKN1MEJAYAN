@@ -45,7 +45,7 @@ class PerizinanModel {
     } catch (e) {
       print(e);
       return {
-        'izin': {'success': false, 'message': 'Ada kesalahan server!'}
+        'success': false, 'message': 'Ada kesalahan aplikasi!'
       };
     }
   }
@@ -59,7 +59,7 @@ class PerizinanModel {
       return data;
     } catch (e) {
       return {
-        'izin': {'success': false, 'message': "Ada kesalahan server"}
+        'success': false, 'message': "Ada kesalahan aplikasi"
       };
     }
   }
@@ -76,7 +76,7 @@ class PerizinanModel {
       return data;
     }catch(e){
       return {
-        'izin': {'success': false, 'message': e}
+        'success': false, 'message': "Ada kesalahan aplikasi"
       };
     }
   }
@@ -119,7 +119,7 @@ class PerizinanModel {
     } catch (e) {
       print(e);
       return {
-        'izin': {'success': false, 'message': 'Ada kesalahan server!'}
+        'success': false, 'message': 'Ada kesalahan aplikasi!'
       };
     }
   }

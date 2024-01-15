@@ -70,14 +70,14 @@ class _EditAbsenView extends State<EditAbsenPage> {
                                         ));
                                         var status = int.tryParse(statusController.text);
                                         var response = await Absen.sendUpdateAbsen(status!);
-                                        if (response['absen']['success']) {
+                                        if (response['success']) {
                                           if (context.mounted) {
                                             ArtSweetAlert.show(
                                               context: context,
                                               artDialogArgs: ArtDialogArgs(
                                                 type: ArtSweetAlertType.success,
                                                 title: "Berhasil mengubah Absen!",
-                                                text: response['absen']['message'],
+                                                text: response['message'],
                                               ),
                                             );
                                           }
@@ -88,7 +88,7 @@ class _EditAbsenView extends State<EditAbsenPage> {
                                               artDialogArgs: ArtDialogArgs(
                                                 type: ArtSweetAlertType.danger,
                                                 title: "Gagal mengubah Absen!",
-                                                text: response['absen']['message'],
+                                                text: response['message'],
                                               ),
                                             );
                                           }

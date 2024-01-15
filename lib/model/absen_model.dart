@@ -12,17 +12,24 @@ class Absen {
       final Uri url = ApiRoute.absenHadirRoute;
       var response = await http.post(url,
           headers: {"Content-Type": 'application/json', 'x-api-key': ApiRoute.API_KEY},
-          body: json.encode({'user_id': box.read('dataLogin')['user']['id'], 'wfh': isWFH, 'absenPaksa': absenPaksa, 'la'
-              't': lat,
+          body: json.encode({
+            'user_id': box.read('dataLogin')['user']['id'],
+            'wfh': isWFH,
+            'absenPaksa': absenPaksa,
+            'la'
+                't': lat,
             'lo'
-              'n': lon}));
+                'n': lon
+          }));
 
       return json.decode(response.body);
     } catch (e) {
       print(e);
-      return {'absen': {'success': false, 'message': "Ada kesalahan server!"}};
+      return {'success': false, 'message': "Ada kesalahan aplikasi!"};
     }
-  }  static Future sendAbsenPulang(bool? isWFH) async {
+  }
+
+  static Future sendAbsenPulang(bool? isWFH) async {
     try {
       final Uri url = ApiRoute.absenPulangRoute;
       var response = await http.post(url,
@@ -32,36 +39,30 @@ class Absen {
       return json.decode(response.body);
     } catch (e) {
       print(e);
-      return {'absen': {'success':false, 'message': "Ada kesalahan server!"}};
+      return {'success': false, 'message': "Ada kesalahan aplikasi!"};
     }
   }
-  static Future sendPaksa()async{
+
+  static Future sendPaksa() async {
     return Absen.sendAbsen(false, true);
   }
 
-  static Future sendUpdateAbsen(int status)async{
-    try{
+  static Future sendUpdateAbsen(int status) async {
+    try {
       final Uri url = ApiRoute.updateAbsenRoute;
-      var response = await http.patch(
-        url,
-        headers: {
-          "Content-Type": "application/json",
-          'x-api-key': ApiRoute.API_KEY,
-        },
-        body: json.encode({
-          'user_id': box.read('dataLogin')['user']['id'],
-          'status': status
-        })
-      );
+      var response = await http.patch(url,
+          headers: {
+            "Content-Type": "application/json",
+            'x-api-key': ApiRoute.API_KEY,
+          },
+          body: json.encode({'user_id': box.read('dataLogin')['user']['id'], 'status': status}));
 
       var data = json.decode(response.body);
       print(data);
       return data;
-    }catch(e){
+    } catch (e) {
       return {
-        'absen': {
-          'success': false, 'message': "Error: $e"
-        }
+        'success': false, 'message': "Ada kesalahan aplikasi"
       };
     }
   }

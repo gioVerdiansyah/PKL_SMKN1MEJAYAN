@@ -33,7 +33,7 @@ class _IzinView extends State<EditIzinPage> {
           }else if(snapshot.hasError){
             return Center(child: Text("Error: ${snapshot.error}"),);
           }else{
-            var dataIzin = snapshot.data['izin']['data'];
+            var dataIzin = snapshot.data['data'];
 
             String tipeIzinController = dataIzin['tipe_izin'];
             TextEditingController alasanController = TextEditingController(text: dataIzin['alasan']);
@@ -202,14 +202,14 @@ class _IzinView extends State<EditIzinPage> {
                                         awalIzinController
                                         .text,
                                         akhirIzinController.text, buktiController, tipeIzinController);
-                                    if (response['izin']['success']) {
+                                    if (response['success']) {
                                       if (context.mounted) {
                                         ArtSweetAlert.show(
                                           context: context,
                                           artDialogArgs: ArtDialogArgs(
                                             type: ArtSweetAlertType.success,
                                             title: "Berhasil me-edit izin!",
-                                            text: response['izin']['message'],
+                                            text: response['message'],
                                             onConfirm: (){
                                               Navigator.pushNamed(context, AppRoute.izinRoute);
                                             }
@@ -224,7 +224,7 @@ class _IzinView extends State<EditIzinPage> {
                                           artDialogArgs: ArtDialogArgs(
                                             type: ArtSweetAlertType.danger,
                                             title: "Gagal me-edit izin!",
-                                            text: response['izin']['message'],
+                                            text: response['message'],
                                           ),
                                         );
                                       }

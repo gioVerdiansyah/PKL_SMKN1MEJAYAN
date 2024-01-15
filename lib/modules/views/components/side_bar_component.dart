@@ -9,12 +9,11 @@ class SideBar extends StatelessWidget {
   const SideBar({super.key});
   static final box = GetStorage();
 
-
   @override
   Widget build(BuildContext context) {
     final user = box.read('dataLogin')['user'] ?? "";
-    void NavigasiKe(routeName){
-      if(ModalRoute.of(context)?.settings.name != routeName) {
+    void NavigasiKe(routeName) {
+      if (ModalRoute.of(context)?.settings.name != routeName) {
         Navigator.pushNamed(context, routeName);
       }
     }
@@ -65,22 +64,26 @@ class SideBar extends StatelessWidget {
             onTap: () {
               NavigasiKe(AppRoute.homeRoute);
             },
-          ),ListTile(
+          ),
+          ListTile(
             title: const Text("Izin"),
             onTap: () {
               NavigasiKe(AppRoute.izinRoute);
             },
-          ),ListTile(
+          ),
+          ListTile(
             title: const Text("Jurnal"),
             onTap: () {
               NavigasiKe(AppRoute.jurnalRoute);
             },
-          ),ListTile(
-            title: const Text("Ubah Password"),
+          ),
+          ListTile(
+            title: const Text("Edit Profile"),
             onTap: () {
               NavigasiKe(AppRoute.ubahPassRoute);
             },
-          ),ListTile(
+          ),
+          ListTile(
             title: const Text("Logout"),
             onTap: () async {
               ArtDialogResponse response = await ArtSweetAlert.show(
@@ -90,20 +93,18 @@ class SideBar extends StatelessWidget {
                       denyButtonText: "Batal",
                       title: "Apakah Anda yakin?",
                       confirmButtonText: "Ya, logout",
-                      type: ArtSweetAlertType.warning
-                  )
-              );
+                      type: ArtSweetAlertType.warning));
 
-              if(response==null) {
+              if (response == null) {
                 return;
               }
 
-              if(response.isTapConfirmButton) {
+              if (response.isTapConfirmButton) {
                 GetStorage().remove('dataLogin');
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => LoginPage()),
-                      (route) => false,
+                  (route) => false,
                 );
                 return;
               }

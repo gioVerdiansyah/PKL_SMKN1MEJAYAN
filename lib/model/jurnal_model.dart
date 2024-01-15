@@ -37,7 +37,7 @@ class JurnalModel {
     } catch (e) {
       print(e);
       return {
-        'jurnal': {'success': false, 'message': 'Ada kesalahan server!'}
+        'success': false, 'message': 'Ada kesalahan aplikasi!'
       };
     }
   }
@@ -58,10 +58,8 @@ class JurnalModel {
       return data;
     }catch(e){
       return {
-        'jurnal': {
           'success': false,
-          'message': "Ada kesalahan server!"
-        }
+          'message': "Ada kesalahan aplikasi!"
       };
     }
   }
@@ -81,10 +79,8 @@ class JurnalModel {
       return data;
     }catch(e){
       return {
-        'jurnal': {
           'success': false,
-          'message': "Ada kesalahan server!"
-        }
+          'message': "Ada kesalahan aplikasi!"
       };
     }
   }
@@ -122,7 +118,7 @@ class JurnalModel {
     } catch (e) {
       print(e);
       return {
-        'jurnal': {'success': false, 'message': 'Ada kesalahan server!'}
+        'success': false, 'message': 'Ada kesalahan aplikasi!'
       };
     }
   }

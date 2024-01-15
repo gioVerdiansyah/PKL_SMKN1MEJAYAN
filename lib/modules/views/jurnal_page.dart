@@ -136,14 +136,14 @@ class _JurnalView extends State<JurnalPage> {
                                         backgroundColor: Colors.green.shade300,
                                       ));
                                       var response = await JurnalModel.sendPost(kegiatanController.text, buktiController!);
-                                      if (response['jurnal']['success']) {
+                                      if (response['success']) {
                                         if (context.mounted) {
                                           ArtSweetAlert.show(
                                             context: context,
                                             artDialogArgs: ArtDialogArgs(
                                               type: ArtSweetAlertType.success,
                                               title: "Berhasil mengisi jurnal!",
-                                              text: response['jurnal']['message'],
+                                              text: response['message'],
                                             ),
                                           );
                                         }
@@ -154,7 +154,7 @@ class _JurnalView extends State<JurnalPage> {
                                             artDialogArgs: ArtDialogArgs(
                                               type: ArtSweetAlertType.danger,
                                               title: "Gagal mengisi jurnal!",
-                                              text: response['jurnal']['message'],
+                                              text: response['message'],
                                             ),
                                           );
                                         }

@@ -29,7 +29,7 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
             return Text('Error: ${snapshot.error}');
           } else {
             print(snapshot.data);
-            var page = snapshot.data['izin']['data'];
+            var page = snapshot.data['data'];
 
             void passingDownEvent(Uri url) {
               setState(() {
@@ -37,7 +37,7 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
               });
             }
 
-            return ((snapshot.data['izin']['data']['data'] == null) || snapshot.data['izin']['data']['data'].isEmpty)
+            return ((snapshot.data['data']['data'] == null) || snapshot.data['data']['data'].isEmpty)
                 ? const Center(
                     child: Text("Belum ada riwayat izin"),
                   )
@@ -59,9 +59,9 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
                           ListView.builder(
                             shrinkWrap: true,
                             physics: const ClampingScrollPhysics(),
-                            itemCount: snapshot.data['izin']['data']['data'].length,
+                            itemCount: snapshot.data['data']['data'].length,
                             itemBuilder: (context, index) {
-                              var dataIzin = snapshot.data['izin']['data']['data'][index];
+                              var dataIzin = snapshot.data['data']['data'][index];
                               var i = index + 1;
                               String status;
                               Color warnaStatus;

@@ -121,6 +121,28 @@ class _HomeView extends State<HomePage> {
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(10, 8, 10, 3),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              const Text("Pemimbing: "),
+                                              Text("${widget.box.read('dataLogin')['guru']['nama']} ${widget.box
+                                                  .read('dataLogin')['guru']['gelar']}")
+                                            ],
+                                          ),Column(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: [
+                                              const Text("Pemimpin DuDi: "),
+                                              Text("${widget.box.read('dataLogin')['dudi']['pemimpin']}")
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     )
                                   ],
                                 ),
