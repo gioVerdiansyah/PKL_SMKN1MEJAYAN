@@ -16,9 +16,8 @@ class PostLoginModel {
 
       var decodedResponse = json.decode(response.body);
 
-      if (decodedResponse['login']['success']) {
-        var dataLogin = decodedResponse;
-        box.write('dataLogin', dataLogin['login']);
+      if (decodedResponse['success']) {
+        box.write('dataLogin', decodedResponse['data']);
         print(box.read('dataLogin'));
       }
 
@@ -26,7 +25,7 @@ class PostLoginModel {
     } catch (e) {
       print('Error: $e');
       return {
-        'login': {'success': false, 'message': "Ada Kesalahan Server!"}
+        'success': false, 'message': "Ada Kesalahan Server!"
       };
     }
   }
@@ -50,7 +49,7 @@ class PostLoginModel {
     } catch (e) {
       print(e);
       return {
-        'login': {'success': false, 'message': "Ada kesalahan server!"}
+        'success': false, 'message': "Ada kesalahan server!"
       };
     }
   }

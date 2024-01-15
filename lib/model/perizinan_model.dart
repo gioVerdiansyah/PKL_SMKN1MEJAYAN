@@ -64,7 +64,7 @@ class PerizinanModel {
     }
   }
 
-  static Future getSpecificData(int id) async {
+  static Future getSpecificData(String id) async {
     try{
       final Uri url = Uri.parse('${ApiRoute.izinGetSpecificRoute}/$id');
       print(url);
@@ -82,7 +82,7 @@ class PerizinanModel {
   }
 
   static Future sendEditAbsen(
-      int id, String alasan, String awalIzin, String akhirIzin, List<PlatformFile>? bukti, String tipeIzin) async {
+      String id, String alasan, String awalIzin, String akhirIzin, List<PlatformFile>? bukti, String tipeIzin) async {
     try {
       final Uri url = Uri.parse("${ApiRoute.izinPutRoute}/$id");
       var request = http.MultipartRequest('POST', url);

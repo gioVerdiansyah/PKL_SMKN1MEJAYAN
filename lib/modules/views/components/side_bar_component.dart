@@ -1,5 +1,6 @@
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pkl_smkn1mejayan/modules/views/login_page.dart';
 import 'package:pkl_smkn1mejayan/routes/app_route.dart';
@@ -12,7 +13,6 @@ class SideBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = box.read('dataLogin')['user'] ?? "";
-    final detailUser = box.read('dataLogin')['user']['detail_user'] ?? "";
     void NavigasiKe(routeName){
       if(ModalRoute.of(context)?.settings.name != routeName) {
         Navigator.pushNamed(context, routeName);
@@ -27,7 +27,7 @@ class SideBar extends StatelessWidget {
               child: Row(
                 children: [
                   Image.network(
-                    box.read('dataLogin')['user']['detail_user']['jurusan']['gambar'].toString(),
+                    "${dotenv.get('APP_URL')}/${user['photo_profile']}",
                     width: 75,
                     height: 75,
                   ),
@@ -39,7 +39,7 @@ class SideBar extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "${user['name']} (${user['detail_user']['absen']})",
+                          "${user['name']} (${user['absen']})",
                           style: TextStyle(fontSize: user['name'].length * 3.8, color: Colors.white),
                           textAlign: TextAlign.left,
                         ),
@@ -51,7 +51,7 @@ class SideBar extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          detailUser['kelas']['kelas'],
+                          user['kelas']['kelas'],
                           style: const TextStyle(fontSize: 20, color: Colors.white),
                           textAlign: TextAlign.left,
                         ),

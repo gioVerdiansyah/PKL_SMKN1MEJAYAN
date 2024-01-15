@@ -12,7 +12,7 @@ import 'package:pkl_smkn1mejayan/routes/app_route.dart';
 class EditIzinPage extends StatefulWidget {
   const EditIzinPage({super.key, required this.idIzin});
   static const String routeName = '/izin/edit';
-  final idIzin;
+  final String idIzin;
 
   @override
   State<EditIzinPage> createState() => _IzinView();

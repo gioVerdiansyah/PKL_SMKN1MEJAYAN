@@ -65,7 +65,7 @@ class JurnalModel {
       };
     }
   }
-  static Future getSpecificData(int id) async {
+  static Future getSpecificData(String id) async {
     try{
       final Uri url = Uri.parse("${ApiRoute.jurnalGetSpesificRoute}/$id");
       var response = await http.get(
@@ -89,7 +89,7 @@ class JurnalModel {
     }
   }
 
-  static Future editJurnal(int id, String kegiatan, List<PlatformFile>? bukti) async {
+  static Future editJurnal(String id, String kegiatan, List<PlatformFile>? bukti) async {
     try {
       final Uri url = Uri.parse("${ApiRoute.jurnalPutRoute}/$id");
       var request = http.MultipartRequest('POST', url);

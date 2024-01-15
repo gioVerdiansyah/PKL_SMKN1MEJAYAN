@@ -1,6 +1,5 @@
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -114,8 +113,7 @@ class _HomeView extends State<HomePage> {
                                     Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 5),
                                       child: Text(
-                                        widget.box.read('dataLogin')?['user']?['detail_user']?['detail_pkl']
-                                                ?['tempat_dudi'] ??
+                                        widget.box.read('dataLogin')?['dudi']?['nama'] ??
                                             "",
                                         style: const TextStyle(
                                           fontSize: 20,
@@ -156,9 +154,8 @@ class _HomeView extends State<HomePage> {
                                               ),
                                             ),
                                             Text(
-                                              widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['jam_pkl']
-                                                      [getDay().toLowerCase()] ??
-                                                  "00:00 - 00:00",
+                                              widget.box.read('dataLogin')['dudi'][getDay().toLowerCase()] ?? "00:00 - "
+                                                  "00:00",
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
                                             ),
@@ -171,8 +168,7 @@ class _HomeView extends State<HomePage> {
                                               ),
                                             ),
                                             Text(
-                                              widget.box.read('dataLogin')['user']['detail_user']['detail_pkl']['jam_pkl']
-                                                      ?['ji_${getDay().toLowerCase()}'] ??
+                                              widget.box.read('dataLogin')['dudi']?['ji_${getDay().toLowerCase()}'] ?? ""
                                                   "00:00 - 00:00",
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
@@ -226,27 +222,27 @@ class _HomeView extends State<HomePage> {
                                                 ));
                                                 var absensi = await Absen.sendAbsen(isWFH);
                                                 print(absensi);
-                                                if (absensi['absen']['success']) {
-                                                  if (absensi['absen']['status'] == 2) {
+                                                if (absensi['success']) {
+                                                  if (absensi['status'] == 2) {
                                                     if (context.mounted) {
                                                       ArtSweetAlert.show(
                                                         context: context,
                                                         artDialogArgs: ArtDialogArgs(
                                                           type: ArtSweetAlertType.warning,
                                                           title: "Berhasil Absen!",
-                                                          text: absensi['absen']['message'],
+                                                          text: absensi['message'],
                                                         ),
                                                       );
                                                     }
-                                                  } else if (absensi['absen']['status'] == 1 ||
-                                                      absensi['absen']['status'] == 4) {
+                                                  } else if (absensi['status'] == 1 ||
+                                                      absensi['status'] == 4) {
                                                     if (context.mounted) {
                                                       ArtSweetAlert.show(
                                                         context: context,
                                                         artDialogArgs: ArtDialogArgs(
                                                           type: ArtSweetAlertType.success,
                                                           title: "Berhasil Absen!",
-                                                          text: absensi['absen']['message'],
+                                                          text: absensi['message'],
                                                         ),
                                                       );
                                                     }
@@ -260,7 +256,7 @@ class _HomeView extends State<HomePage> {
                                                       artDialogArgs: ArtDialogArgs(
                                                         type: ArtSweetAlertType.danger,
                                                         title: "Gagal Absen!",
-                                                        text: absensi['absen']['message'],
+                                                        text: absensi['message'],
                                                       ),
                                                     );
                                                   }
@@ -281,15 +277,15 @@ class _HomeView extends State<HomePage> {
                                               ));
                                               var absensi = await Absen.sendAbsenPulang(isWFH);
                                               print(absensi);
-                                              if (absensi['absen']['status'] == 1 ||
-                                                    absensi['absen']['status'] == 4) {
+                                              if (absensi['status'] == 1 ||
+                                                    absensi['status'] == 4) {
                                                   if (context.mounted) {
                                                     ArtSweetAlert.show(
                                                       context: context,
                                                       artDialogArgs: ArtDialogArgs(
                                                         type: ArtSweetAlertType.success,
                                                         title: "Berhasil Absen Pulang!",
-                                                        text: absensi['absen']['message'],
+                                                        text: absensi['message'],
                                                       ),
                                                     );
                                                   }
@@ -300,7 +296,7 @@ class _HomeView extends State<HomePage> {
                                                     artDialogArgs: ArtDialogArgs(
                                                       type: ArtSweetAlertType.danger,
                                                       title: "Gagal Absen Pulang!",
-                                                      text: absensi['absen']['message'],
+                                                      text: absensi['message'],
                                                     ),
                                                   );
                                                 }
@@ -385,32 +381,32 @@ class _HomeView extends State<HomePage> {
                                                 )
                                               ),
                                             ),
-                                            const Center(
-                                              child: Text("Posisi bermasalah?"),
-                                            ),
-                                            Card(
-                                              color: const Color.fromRGBO(252,198,43, 1),
-                                              child: InkWell(
-                                                onTap: (){
-                                                  Uri absenTroubleUrl = Uri.parse('${dotenv.get('APP_URL')
-                                                  }/absen/trouble?user_id=${widget.box.read('dataLogin')
-                                                  ['user']['id']}&rm_token=${widget.box.read('dataLogin')
-                                                  ['user']['remember_token']}');
-                                                  launchUrl(absenTroubleUrl);
-                                                },
-                                                child: const SizedBox(
-                                                  height: 40,
-                                                  width: double.infinity,
-                                                  child: Center(
-                                                    child: Text("Absen Paksa", style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 15,
-                                                      color: Colors.white,
-                                                    )),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
+                                            // const Center(
+                                            //   child: Text("Posisi bermasalah?"),
+                                            // ),
+                                            // Card(
+                                            //   color: const Color.fromRGBO(252,198,43, 1),
+                                            //   child: InkWell(
+                                            //     onTap: (){
+                                            //       Uri absenTroubleUrl = Uri.parse('${dotenv.get('APP_URL')
+                                            //       }/absen/trouble?user_id=${widget.box.read('dataLogin')
+                                            //       ['user']['id']}&rm_token=${widget.box.read('dataLogin')
+                                            //       ['user']['remember_token']}');
+                                            //       launchUrl(absenTroubleUrl);
+                                            //     },
+                                            //     child: const SizedBox(
+                                            //       height: 40,
+                                            //       width: double.infinity,
+                                            //       child: Center(
+                                            //         child: Text("Absen Paksa", style: TextStyle(
+                                            //           fontWeight: FontWeight.bold,
+                                            //           fontSize: 15,
+                                            //           color: Colors.white,
+                                            //         )),
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // )
                                           ],
                                         ),
                                     ),

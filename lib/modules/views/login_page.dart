@@ -123,7 +123,7 @@ class _LoginView extends State<LoginPage> {
                                   ));
                                   var loginResponse = await PostLoginModel.sendRequest(
                                       widget.usernameController.text, widget.passwordController.text);
-                                  if (loginResponse['login']['success']) {
+                                  if (loginResponse['success']) {
                                     if (context.mounted) {
                                       Navigator.pushAndRemoveUntil(
                                         context,
@@ -138,7 +138,7 @@ class _LoginView extends State<LoginPage> {
                                         artDialogArgs: ArtDialogArgs(
                                           type: ArtSweetAlertType.danger,
                                           title: "Gagal!",
-                                          text: loginResponse['login']['message'],
+                                          text: loginResponse['message'],
                                         ),
                                       );
                                     }

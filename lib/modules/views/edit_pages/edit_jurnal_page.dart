@@ -14,7 +14,7 @@ class EditJurnalPage extends StatefulWidget {
   const EditJurnalPage({super.key, required this.idJurnal});
   static const String routeName = '/jurnal/show';
 
-  final int idJurnal;
+  final String idJurnal;
 
   @override
   State<EditJurnalPage> createState() => _EditJurnalView();
@@ -35,8 +35,6 @@ class _EditJurnalView extends State<EditJurnalPage> {
               return Text('Error: ${snapshot.error}');
             }else{
               var dataJurnal = snapshot.data['jurnal']['data'];
-
-              print("data Jurnal: $dataJurnal");
 
               List<PlatformFile>? buktiController;
               TextEditingController kegiatanController = TextEditingController(text: dataJurnal['kegiatan']);
