@@ -42,14 +42,10 @@ class _EditAbsenView extends State<EditAbsenPage> {
                                 initialValue: '-- Pilih Status Absensi --',
                                 onChanged: (value) {
                                   setState(() {
-                                    if (value == 'WFH') {
-                                      statusController.text = '4';
-                                    } else if (value == 'hadir') {
-                                      statusController.text = '1';
-                                    } else {}
+                                    statusController.text = value.toString();
                                   });
                                 },
-                                items: ['-- Pilih Status Absensi --', 'hadir', 'WFH']
+                                items: ['-- Pilih Status Absensi --', 'Hadir', 'WFH', 'Reset']
                                     .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                                     .toList(),
                                 validator: FormBuilderValidators.compose([
@@ -68,18 +64,30 @@ class _EditAbsenView extends State<EditAbsenPage> {
                                           content: const Text('Processing Data'),
                                           backgroundColor: Colors.green.shade300,
                                         ));
-                                        var status = int.tryParse(statusController.text);
-                                        var response = await Absen.sendUpdateAbsen(status!);
-                                        if (response['success']) {
-                                          if (context.mounted) {
-                                            ArtSweetAlert.show(
-                                              context: context,
-                                              artDialogArgs: ArtDialogArgs(
-                                                type: ArtSweetAlertType.success,
-                                                title: "Berhasil mengubah Absen!",
-                                                text: response['message'],
-                                              ),
-                                            );
+                                        var absensi = await Absen.sendUpdateAbsen(statusController.text);
+                                        if (absensi['success']) {
+                                          if (absensi['status'] == 2 || absensi['status'] == 3 || absensi['status'] == 5) {
+                                            if (context.mounted) {
+                                              ArtSweetAlert.show(
+                                                context: context,
+                                                artDialogArgs: ArtDialogArgs(
+                                                  type: ArtSweetAlertType.warning,
+                                                  title: "Berhasil me-edit absen Namun!",
+                                                  text: absensi['message'],
+                                                ),
+                                              );
+                                            }
+                                          } else if (absensi['status'] == 1 || absensi['status'] == 4) {
+                                            if (context.mounted) {
+                                              ArtSweetAlert.show(
+                                                context: context,
+                                                artDialogArgs: ArtDialogArgs(
+                                                  type: ArtSweetAlertType.success,
+                                                  title: "Berhasil me-edit absen!",
+                                                  text: absensi['message'],
+                                                ),
+                                              );
+                                            }
                                           }
                                         } else {
                                           if (context.mounted) {
@@ -87,8 +95,8 @@ class _EditAbsenView extends State<EditAbsenPage> {
                                               context: context,
                                               artDialogArgs: ArtDialogArgs(
                                                 type: ArtSweetAlertType.danger,
-                                                title: "Gagal mengubah Absen!",
-                                                text: response['message'],
+                                                title: "Gagal Absen!",
+                                                text: absensi['message'],
                                               ),
                                             );
                                           }

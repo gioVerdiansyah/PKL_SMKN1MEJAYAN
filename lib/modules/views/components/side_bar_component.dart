@@ -39,7 +39,7 @@ class SideBar extends StatelessWidget {
                       children: [
                         Text(
                           "${user['name']} (${user['absen']})",
-                          style: TextStyle(fontSize: user['name'].length * 3.8, color: Colors.white),
+                          style: TextStyle(fontSize: 18, color: Colors.white),
                           textAlign: TextAlign.left,
                         ),
                         const SizedBox(height: 10),

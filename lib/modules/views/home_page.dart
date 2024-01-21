@@ -273,7 +273,6 @@ class _HomeView extends State<HomePage> {
                                                 } else {
                                                   if (context.mounted) {
                                                     widget.box.write('hasErrorAbsen', true);
-                                                    print(widget.box.read('hasErrorAbsen'));
                                                     ArtSweetAlert.show(
                                                       context: context,
                                                       artDialogArgs: ArtDialogArgs(
@@ -404,32 +403,6 @@ class _HomeView extends State<HomePage> {
                                                 )
                                               ),
                                             ),
-                                            // const Center(
-                                            //   child: Text("Posisi bermasalah?"),
-                                            // ),
-                                            // Card(
-                                            //   color: const Color.fromRGBO(252,198,43, 1),
-                                            //   child: InkWell(
-                                            //     onTap: (){
-                                            //       Uri absenTroubleUrl = Uri.parse('${dotenv.get('APP_URL')
-                                            //       }/absen/trouble?user_id=${widget.box.read('dataLogin')
-                                            //       ['user']['id']}&rm_token=${widget.box.read('dataLogin')
-                                            //       ['user']['remember_token']}');
-                                            //       launchUrl(absenTroubleUrl);
-                                            //     },
-                                            //     child: const SizedBox(
-                                            //       height: 40,
-                                            //       width: double.infinity,
-                                            //       child: Center(
-                                            //         child: Text("Absen Paksa", style: TextStyle(
-                                            //           fontWeight: FontWeight.bold,
-                                            //           fontSize: 15,
-                                            //           color: Colors.white,
-                                            //         )),
-                                            //       ),
-                                            //     ),
-                                            //   ),
-                                            // )
                                           ],
                                         ),
                                     ),

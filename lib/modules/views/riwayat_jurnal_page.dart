@@ -5,8 +5,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:pkl_smkn1mejayan/model/jurnal_model.dart';
+import 'package:pkl_smkn1mejayan/modules/views/components/Utility.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/pagination_component.dart';
+import 'package:pkl_smkn1mejayan/modules/views/detail_pages/detail_jurnal_page.dart';
 import 'package:pkl_smkn1mejayan/routes/api_route.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -42,7 +44,7 @@ class _RiwayatJurnalView extends State<RiwayatJurnalPage> {
             print(snapshot.data);
             var page = snapshot.data['data'];
 
-            void passingDownEvent(Uri url){
+            void passingDownEvent(Uri url) {
               setState(() {
                 changeAbsen = url;
               });
@@ -54,7 +56,7 @@ class _RiwayatJurnalView extends State<RiwayatJurnalPage> {
                   )
                 : Container(
                     margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                  child: Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Center(
@@ -70,12 +72,16 @@ class _RiwayatJurnalView extends State<RiwayatJurnalPage> {
                         Expanded(
                           child: ListView(
                             children: [
+                              if(snapshot.data['doenst_jurnal'] == 0)
                               Card(
-                                child: TextButton.icon(onPressed: () async {
-                                  launchUrl(Uri.parse("${dotenv.get('APP_URL')}/print/jurnal/${GetStorage().read
-                                    ('dataLogin')['user']['id']}"));
-                                }, icon: const Icon(Icons.print), label: const Text("Cetak "
-                                    "Jurnal")),
+                                child: TextButton.icon(
+                                    onPressed: () async {
+                                      launchUrl(Uri.parse(
+                                          "${dotenv.get('APP_URL')}/print/jurnal/${GetStorage().read('dataLogin')['user']['id']}"));
+                                    },
+                                    icon: const Icon(Icons.print),
+                                    label: const Text("Cetak "
+                                        "Jurnal")),
                               ),
                               ListView.builder(
                                 shrinkWrap: true,
@@ -86,17 +92,18 @@ class _RiwayatJurnalView extends State<RiwayatJurnalPage> {
                                   String status;
                                   Color warnaStatus;
 
-                                  print(dataJurnal);
-
                                   if (dataJurnal['status'] == '1') {
                                     warnaStatus = const Color.fromRGBO(21, 115, 71, 1);
                                     status = 'Disetujui';
                                   } else if (dataJurnal['status'] == '2') {
                                     warnaStatus = const Color.fromRGBO(220, 53, 69, 1);
                                     status = 'Ditolak';
-                                  } else {
+                                  } else if (dataJurnal['status'] == '0') {
                                     warnaStatus = const Color.fromRGBO(255, 202, 44, 1);
                                     status = 'Pending';
+                                  } else {
+                                    warnaStatus = Colors.brown;
+                                    status = 'Tidak mengisi';
                                   }
 
                                   return Card(
@@ -140,41 +147,47 @@ class _RiwayatJurnalView extends State<RiwayatJurnalPage> {
                                                 child: Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    Center(
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                            color: Colors.green,
-                                                            width: 2,
-                                                          ),
-                                                        ),
-                                                        child: Image.network("${ApiRoute.storageRoute}/${dataJurnal['bukti']}",
-                                                            width: 150),
-                                                      ),
-                                                    ),
                                                     const Padding(
                                                       padding: EdgeInsets.only(top: 8),
                                                       child: Text("Keterangan Jurnal:",
                                                           style: TextStyle(fontWeight: FontWeight.bold)),
                                                     ),
-                                                    DescriptionAlasan(alasan: dataJurnal['kegiatan'])
+                                                    Text(truncatedText(dataJurnal['kegiatan']))
                                                   ],
                                                 ),
                                               ),
-                                              if (dataJurnal['status'] != '1')
-                                                ElevatedButton(
-                                                    onPressed: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (BuildContext context) => EditJurnalPage(
-                                                                    idJurnal: dataJurnal['id'],
-                                                                  )));
-                                                    },
-                                                    style: const ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStatePropertyAll(Color.fromRGBO(255, 202, 44, 1))),
-                                                    child: const Icon(Icons.edit_note)),
+                                              Column(
+                                                children: [
+                                                  if (dataJurnal['status'] != '1')
+                                                    ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (BuildContext context) => EditJurnalPage(
+                                                                        idJurnal: dataJurnal['id'],
+                                                                      )));
+                                                        },
+                                                        style: const ButtonStyle(
+                                                            backgroundColor:
+                                                                MaterialStatePropertyAll(Color.fromRGBO(255, 202, 44, 1))),
+                                                        child: const Icon(Icons.edit_note)),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top: 10),
+                                                    child: ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (BuildContext context) => DetailJurnalPage(data: dataJurnal)));
+                                                        },
+                                                        style: const ButtonStyle(
+                                                            backgroundColor:
+                                                                MaterialStatePropertyAll(Colors.blueAccent)),
+                                                        child: const Icon(Icons.list_alt)),
+                                                  ),
+                                                ],
+                                              )
                                             ],
                                           )
                                         ],
@@ -190,37 +203,9 @@ class _RiwayatJurnalView extends State<RiwayatJurnalPage> {
                         ),
                       ],
                     ),
-                );
+                  );
           }
         },
-      ),
-    );
-  }
-}
-
-class DescriptionAlasan extends StatefulWidget {
-  const DescriptionAlasan({super.key, required this.alasan});
-  final String alasan;
-
-  @override
-  State<DescriptionAlasan> createState() => _DescriptionFragment();
-}
-
-class _DescriptionFragment extends State<DescriptionAlasan> {
-  bool isExpanded = false;
-
-  @override
-  Widget build(BuildContext context) {
-    String alasan = widget.alasan;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          isExpanded = !isExpanded;
-        });
-      },
-      child: Text(
-        isExpanded ? alasan : (alasan.length > 200 ? '${alasan.substring(0, 200)}...' : alasan),
-        overflow: TextOverflow.visible,
       ),
     );
   }

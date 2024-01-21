@@ -47,7 +47,7 @@ class Absen {
     return Absen.sendAbsen(false, true);
   }
 
-  static Future sendUpdateAbsen(int status) async {
+  static Future sendUpdateAbsen(String status) async {
     try {
       final Uri url = ApiRoute.updateAbsenRoute;
       var response = await http.patch(url,

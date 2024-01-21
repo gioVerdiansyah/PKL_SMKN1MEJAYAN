@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pkl_smkn1mejayan/model/perizinan_model.dart';
+import 'package:pkl_smkn1mejayan/modules/views/components/Utility.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/pagination_component.dart';
+import 'package:pkl_smkn1mejayan/modules/views/detail_pages/detail_izin_page.dart';
 import 'package:pkl_smkn1mejayan/modules/views/edit_pages/edit_izin_page.dart';
 
 class RiwayatIzinPage extends StatefulWidget {
@@ -126,24 +128,43 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
                                                     child: Text("Alasan Izin:",
                                                         style: TextStyle(fontWeight: FontWeight.bold)),
                                                   ),
-                                                  DescriptionAlasan(alasan: dataIzin['alasan'])
+                                                  DescriptionText(teks: dataIzin['alasan'])
                                                 ],
                                               ),
                                             ),
-                                            if (dataIzin['status'] != '1')
-                                              ElevatedButton(
-                                                  onPressed: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (BuildContext context) => EditIzinPage(
-                                                                  idIzin: dataIzin['id'],
-                                                                )));
-                                                  },
-                                                  style: const ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStatePropertyAll(Color.fromRGBO(255, 202, 44, 1))),
-                                                  child: const Icon(Icons.edit_note)),
+                                            Column(
+                                              children: [
+                                                if (dataIzin['status'] != '1')
+                                                  ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (BuildContext context) => EditIzinPage(
+                                                                      idIzin: dataIzin['id'],
+                                                                    )));
+                                                      },
+                                                      style: const ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStatePropertyAll(Color.fromRGBO(255, 202, 44, 1))),
+                                                      child: const Icon(Icons.edit_note)),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top: 10),
+                                                  child: ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (BuildContext context) =>
+                                                                    DetailIzinPage(data: dataIzin)));
+                                                      },
+                                                      style: const ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStatePropertyAll(Colors.blueAccent)),
+                                                      child: const Icon(Icons.list)),
+                                                ),
+                                              ],
+                                            )
                                           ],
                                         )
                                       ],
@@ -153,7 +174,7 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
                               );
                             },
                           ),
-                          if(page['prev_page_url'] != null || page['next_page_url'] != null)
+                          if (page['prev_page_url'] != null || page['next_page_url'] != null)
                             PaginationComponent(page: page, passingDownEvent: passingDownEvent)
                         ]),
                       )
@@ -161,34 +182,6 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
                   );
           }
         },
-      ),
-    );
-  }
-}
-
-class DescriptionAlasan extends StatefulWidget {
-  const DescriptionAlasan({super.key, required this.alasan});
-  final String alasan;
-
-  @override
-  State<DescriptionAlasan> createState() => _DescriptionFragment();
-}
-
-class _DescriptionFragment extends State<DescriptionAlasan> {
-  bool isExpanded = false;
-
-  @override
-  Widget build(BuildContext context) {
-    String alasan = widget.alasan;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          isExpanded = !isExpanded;
-        });
-      },
-      child: Text(
-        isExpanded ? alasan : (alasan.length > 200 ? '${alasan.substring(0, 200)}...' : alasan),
-        overflow: TextOverflow.visible,
       ),
     );
   }

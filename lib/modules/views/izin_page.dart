@@ -93,7 +93,7 @@ class _IzinView extends State<IzinPage> {
                         FormBuilderDropdown(
                           name: 'tipeizin',
                           initialValue: "--Pilih Tipe Izin--",
-                          items: ['--Pilih Tipe Izin--', 'Sakit', 'Izin', 'Dispensasi']
+                          items: ['--Pilih Tipe Izin--', 'Sakit', 'Izin', 'Dispensasi', 'Cuti']
                               .map((option) => DropdownMenuItem(
                                     value: option,
                                     child: Text(option),
