@@ -115,7 +115,7 @@ class _JurnalView extends State<JurnalPage> {
                               name: 'textareaField',
                               maxLines: 5,
                               decoration: const InputDecoration(
-                                labelText: 'Kegiatan',
+                                labelText: 'Uraian Kegiatan',
                                 floatingLabelBehavior: FloatingLabelBehavior.always,
                               ),
                               validator: FormBuilderValidators.compose(
