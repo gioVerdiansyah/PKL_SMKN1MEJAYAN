@@ -176,22 +176,8 @@ class _HomeView extends State<HomePage> {
                                               ),
                                             ),
                                             Text(
-                                              widget.box.read('dataLogin')['dudi'][getDay().toLowerCase()] ?? "00:00 - "
+                                              widget.box.read('dataLogin')['user'][getDay().toLowerCase()] ?? "00:00 - "
                                                   "00:00",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
-                                            ),
-                                            const Text(
-                                              'Jam Istirahat',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: textColor,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            Text(
-                                              widget.box.read('dataLogin')['dudi']?['ji_${getDay().toLowerCase()}'] ?? ""
-                                                  "00:00 - 00:00",
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
                                             ),
