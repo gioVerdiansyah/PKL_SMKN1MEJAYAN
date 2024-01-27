@@ -21,7 +21,8 @@ class _EditProfileView extends State<EditProfilePage> {
   final _formKey = GlobalKey<FormBuilderState>();
   final TextEditingController oldPassController = TextEditingController();
   final TextEditingController confirmPassController = TextEditingController();
-  final TextEditingController newPassController = TextEditingController();
+  final TextEditingController newPassController = TextEditingController();final TextEditingController newPhoneController
+  = TextEditingController(text: GetStorage().read('dataLogin')['user']['no_hp'].toString());
   List<PlatformFile>? photoProfileController;
   @override
   Widget build(BuildContext context) {
@@ -79,6 +80,22 @@ class _EditProfileView extends State<EditProfilePage> {
                       const Padding(
                         padding: EdgeInsets.only(top: 30),
                         child: Center(
+                          child: Text('Ubah Nomor HP', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                      FormBuilderTextField(
+                        name: 'no_hp',
+                        decoration: const InputDecoration(labelText: 'Nomor HP (62xxx)'),
+                        controller: newPhoneController,
+                        validator: (value) {
+                          if(!RegExp(r'^62\d+$').hasMatch(value!)){
+                            return "Invalid input. Must start with 62.";
+                          }
+                        },
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 30),
+                        child: Center(
                           child: Text('Ubah Password', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                         ),
                       ),
@@ -110,7 +127,7 @@ class _EditProfileView extends State<EditProfilePage> {
                               ));
                               var response = await EditProfileModel.sendPost(
                                   oldPassController.text, confirmPassController.text, newPassController.text,
-                                  photoProfileController);
+                                  photoProfileController, newPhoneController.text);
                               print(response);
                               if (response['success']) {
                                 if (context.mounted) {
