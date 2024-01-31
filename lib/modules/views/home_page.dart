@@ -120,6 +120,7 @@ class _HomeView extends State<HomePage> {
                                           color: textColor,
                                           fontWeight: FontWeight.w600,
                                         ),
+                                        textAlign: TextAlign.center,
                                       ),
                                     ),
                                     Padding(
@@ -131,8 +132,7 @@ class _HomeView extends State<HomePage> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               const Text("Pemimbing: "),
-                                              Text("${widget.box.read('dataLogin')['guru']['nama']} ${widget.box
-                                                  .read('dataLogin')['guru']['gelar']}")
+                                              Text("${widget.box.read('dataLogin')['guru']['nama']}")
                                             ],
                                           ),Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
