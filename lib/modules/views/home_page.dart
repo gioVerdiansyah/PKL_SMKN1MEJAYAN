@@ -71,6 +71,17 @@ class _HomeView extends State<HomePage> {
     return hari;
   }
 
+  int calculationOfReturnTime(String workingHours) {
+    DateTime currentTime = DateTime.now();
+    List<String> hours = workingHours.split(" - ");
+    String endTimeStr = hours[1];
+    DateTime endTime = DateTime.parse(currentTime.toString().split(" ")[0] + " " + endTimeStr);
+
+    int remainingHours = endTime.difference(currentTime).inHours;
+
+    return remainingHours;
+  }
+
   @override
   Widget build(BuildContext context) {
     const textColor = Color.fromRGBO(55, 73, 87, 1);
@@ -83,7 +94,7 @@ class _HomeView extends State<HomePage> {
         children: [
           Center(
             child: Container(
-              width: 330,
+                width: 330,
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 child: SingleChildScrollView(
                   child: Column(
@@ -113,8 +124,7 @@ class _HomeView extends State<HomePage> {
                                     Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 5),
                                       child: Text(
-                                        widget.box.read('dataLogin')?['dudi']?['nama'] ??
-                                            "",
+                                        widget.box.read('dataLogin')?['dudi']?['nama'] ?? "",
                                         style: const TextStyle(
                                           fontSize: 20,
                                           color: textColor,
@@ -134,7 +144,8 @@ class _HomeView extends State<HomePage> {
                                               const Text("Pemimbing: "),
                                               Text("${widget.box.read('dataLogin')['guru']['nama']}")
                                             ],
-                                          ),Column(
+                                          ),
+                                          Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               const Text("Pemimpin DuDi: "),
@@ -176,8 +187,9 @@ class _HomeView extends State<HomePage> {
                                               ),
                                             ),
                                             Text(
-                                              widget.box.read('dataLogin')['user'][getDay().toLowerCase()] ?? "00:00 - "
-                                                  "00:00",
+                                              widget.box.read('dataLogin')['user'][getDay().toLowerCase()] ??
+                                                  "00:00 - "
+                                                      "00:00",
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
                                             ),
@@ -231,7 +243,8 @@ class _HomeView extends State<HomePage> {
                                                 var absensi = await Absen.sendAbsen(isWFH);
                                                 print(absensi);
                                                 if (absensi['success']) {
-                                                  if (absensi['status'] == 2 || absensi['status'] == 3 ||
+                                                  if (absensi['status'] == 2 ||
+                                                      absensi['status'] == 3 ||
                                                       absensi['status'] == 5) {
                                                     if (context.mounted) {
                                                       ArtSweetAlert.show(
@@ -243,8 +256,7 @@ class _HomeView extends State<HomePage> {
                                                         ),
                                                       );
                                                     }
-                                                  } else if (absensi['status'] == 1 ||
-                                                      absensi['status'] == 4) {
+                                                  } else if (absensi['status'] == 1 || absensi['status'] == 4) {
                                                     if (context.mounted) {
                                                       ArtSweetAlert.show(
                                                         context: context,
@@ -279,14 +291,29 @@ class _HomeView extends State<HomePage> {
                                                 backgroundColor:
                                                     MaterialStatePropertyAll(Color.fromRGBO(239, 80, 107, 1))),
                                             onPressed: () async {
-                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                content: const Text('Processing Data'),
-                                                backgroundColor: Colors.green.shade300,
-                                              ));
-                                              var absensi = await Absen.sendAbsenPulang(isWFH);
-                                              print(absensi);
-                                              if (absensi['status'] == 1 ||
-                                                    absensi['status'] == 4) {
+                                              ArtDialogResponse response = await ArtSweetAlert.show(
+                                                  barrierDismissible: false,
+                                                  context: context,
+                                                  artDialogArgs: ArtDialogArgs(
+                                                      denyButtonText: "Cancel",
+                                                      title: "Apakah Anda yakin?",
+                                                      text: "Masih tersisa ${calculationOfReturnTime(widget.box.read('dataLogin')['user'][getDay().toLowerCase()])} jam untuk pulang, apakah Anda yakin "
+                                                          "ingin pulang?",
+                                                      confirmButtonText: "Yes",
+                                                      type: ArtSweetAlertType.warning));
+
+                                              if (response == null) {
+                                                return;
+                                              }
+
+                                              if (response.isTapConfirmButton) {
+                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                  content: const Text('Processing Data'),
+                                                  backgroundColor: Colors.green.shade300,
+                                                ));
+                                                var absensi = await Absen.sendAbsenPulang(isWFH);
+                                                print(absensi);
+                                                if (absensi['status'] == 1 || absensi['status'] == 4) {
                                                   if (context.mounted) {
                                                     ArtSweetAlert.show(
                                                       context: context,
@@ -297,17 +324,19 @@ class _HomeView extends State<HomePage> {
                                                       ),
                                                     );
                                                   }
-                                                }else {
-                                                if (context.mounted) {
-                                                  ArtSweetAlert.show(
-                                                    context: context,
-                                                    artDialogArgs: ArtDialogArgs(
-                                                      type: ArtSweetAlertType.danger,
-                                                      title: "Gagal Absen Pulang!",
-                                                      text: absensi['message'],
-                                                    ),
-                                                  );
+                                                } else {
+                                                  if (context.mounted) {
+                                                    ArtSweetAlert.show(
+                                                      context: context,
+                                                      artDialogArgs: ArtDialogArgs(
+                                                        type: ArtSweetAlertType.danger,
+                                                        title: "Gagal Absen Pulang!",
+                                                        text: absensi['message'],
+                                                      ),
+                                                    );
+                                                  }
                                                 }
+                                                return;
                                               }
                                             },
                                             icon: const Icon(Icons.logout),
@@ -316,46 +345,45 @@ class _HomeView extends State<HomePage> {
                                         ],
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Card(
-                                        color: const Color.fromRGBO(252,198,43, 1),
-                                        child: InkWell(
-                                          onTap: (){
-                                            Navigator.pushNamed(context, AppRoute.editAbsenRoute);
-                                          },
-                                          child: const SizedBox(
-                                            height: 40,
-                                            width: double.infinity,
-                                            child: Center(
-                                              child: Text("Edit Absen", style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15,
-                                                color: Colors.white,
-                                              )),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(top: 10),
+                                    //   child: Card(
+                                    //     color: const Color.fromRGBO(252,198,43, 1),
+                                    //     child: InkWell(
+                                    //       onTap: (){
+                                    //         Navigator.pushNamed(context, AppRoute.editAbsenRoute);
+                                    //       },
+                                    //       child: const SizedBox(
+                                    //         height: 40,
+                                    //         width: double.infinity,
+                                    //         child: Center(
+                                    //           child: Text("Edit Absen", style: TextStyle(
+                                    //             fontWeight: FontWeight.bold,
+                                    //             fontSize: 15,
+                                    //             color: Colors.white,
+                                    //           )),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 15),
                                       child: Column(
-                                          children: [
-                                            const Center(
-                                              child: Text("Posisi Anda",style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold
-                                              ),textAlign: TextAlign.center),
-                                            ),
-                                            SizedBox(
-                                              height: 200,
-                                              child: Card(
+                                        children: [
+                                          const Center(
+                                            child: Text("Posisi Anda",
+                                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                                textAlign: TextAlign.center),
+                                          ),
+                                          SizedBox(
+                                            height: 200,
+                                            child: Card(
                                                 elevation: 5,
                                                 child: FlutterMap(
                                                   options: MapOptions(
-                                                    initialCenter: LatLng(positionData['latitude'],
-                                                        positionData['longitude']),
+                                                    initialCenter:
+                                                        LatLng(positionData['latitude'], positionData['longitude']),
                                                     initialZoom: 15.5,
                                                   ),
                                                   children: [
@@ -366,33 +394,32 @@ class _HomeView extends State<HomePage> {
                                                     MarkerLayer(
                                                       markers: [
                                                         Marker(
-                                                          width: 40.0,
-                                                          height: 40.0,
-                                                          point: LatLng(positionData['latitude'], positionData['longitude']),
-                                                          child: const Icon(
-                                                            Icons.location_on,
-                                                            color: Colors.red,
-                                                            size: 40.0,
-                                                          )
-                                                        ),
+                                                            width: 40.0,
+                                                            height: 40.0,
+                                                            point: LatLng(
+                                                                positionData['latitude'], positionData['longitude']),
+                                                            child: const Icon(
+                                                              Icons.location_on,
+                                                              color: Colors.red,
+                                                              size: 40.0,
+                                                            )),
                                                       ],
                                                     ),
                                                     RichAttributionWidget(
                                                       attributions: [
                                                         TextSourceAttribution(
                                                           'OpenStreetMap contributors',
-                                                          onTap: () => launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
+                                                          onTap: () =>
+                                                              launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
                                                         ),
                                                       ],
                                                     ),
                                                   ],
-                                                )
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                                )),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-
                                   ],
                                 ),
                               )))
