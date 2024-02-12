@@ -51,6 +51,7 @@ class _EditProfileView extends State<EditProfilePage> {
                             height: 75,
                           ),
                           FormBuilderFilePicker(
+                            withData: true,
                             name: "images",
                             allowMultiple: false,
                             maxFiles: 1,

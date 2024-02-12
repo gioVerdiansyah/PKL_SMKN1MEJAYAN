@@ -49,7 +49,7 @@ void main() async {
     return await Geolocator.getCurrentPosition();
   }
 
-  // Pemanggilan fungsi _determinePosition()
+  // Pemanggilan fungsi _determinePosition() and _getStoragePermission
   try {
     Position position = await _determinePosition();
     box.write('position', {
@@ -61,9 +61,16 @@ void main() async {
     print('Error: $e');
   }
   if(!isConnected){
-    runApp(const NoInternetModal());
+    runApp(const DeniedModal(
+        title: "Tidak Terkoneksi dengan Internet",
+        content: "Anda tidak terkoneksi dengan internet!!\nRestart aplikasi jika sudah terhubung.")
+    );
   }else if(isEnableLocation){
-    runApp(const PosisitionDeniedModal());
+    runApp(const DeniedModal(
+        title: "Lokasi telah di tolak!!!",
+        content: "Anda tidak dapat me akses aplikasi!\nCoba nyalakan lokasi anda lalu setujui aplikasi "
+        "untuk mengakses aplikasi anda\nKlik OK untuk Merestart")
+    );
   }else{
     runApp(const MainApp());
   }
@@ -84,8 +91,10 @@ class MainApp extends StatelessWidget {
   }
 }
 
-class NoInternetModal extends StatelessWidget {
-  const NoInternetModal({super.key});
+class DeniedModal extends StatelessWidget {
+  const DeniedModal({super.key, required this.title, required this.content});
+  final String title;
+  final String content;
 
   @override
   Widget build(BuildContext context) {
@@ -93,40 +102,14 @@ class NoInternetModal extends StatelessWidget {
       home: Scaffold(
         body: Center(
           child: AlertDialog(
-            title: const Text("Tidak Terkoneksi dengan Internet"),
-            content: const Text("Anda tidak terkoneksi dengan internet!!\nRestart aplikasi jika sudah terhubung."),
+            title: Text(title),
+            content: Text(content),
             actions: [
               TextButton(
                 onPressed: () async {
                   Restart.restartApp();
                   },
                 child: const Text("Restart"),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-class PosisitionDeniedModal extends StatelessWidget {
-  const PosisitionDeniedModal({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: AlertDialog(
-            title: const Text("Lokasi telah di tolak!!!"),
-            content: const Text("Anda tidak dapat me akses aplikasi!\nCoba nyalakan lokasi anda lalu setujui aplikasi "
-                "untuk mengakses aplikasi anda\nKlik OK untuk Merestart"),
-            actions: [
-              TextButton(
-                onPressed: () async {
-                  Restart.restartApp();
-                  },
-                child: const Text("OK"),
               ),
             ],
           ),

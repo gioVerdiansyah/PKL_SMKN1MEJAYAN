@@ -78,6 +78,7 @@ class _JurnalView extends State<JurnalPage> {
                             SizedBox(
                               width: double.infinity,
                               child: FormBuilderFilePicker(
+                                withData: true,
                                 name: "images",
                                 allowMultiple: false,
                                 maxFiles: 1,

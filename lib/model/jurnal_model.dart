@@ -27,7 +27,6 @@ class JurnalModel {
           filename: file.name,
         );
 
-        // Tambahkan file ke dalam request
         request.files.add(multipartFile);
       }
 

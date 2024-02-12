@@ -15,16 +15,14 @@ class PerizinanModel {
       var request = http.MultipartRequest('POST', url);
       request.headers['x-api-key'] = ApiRoute.API_KEY;
 
-      // Tambahkan data string
       request.fields['name'] = box.read('dataLogin')['user']['name'].toString();
       request.fields['tipe_izin'] = tipeIzin;
       request.fields['alasan'] = alasan;
       request.fields['awal_izin'] = DateFormat("yyyy-MM-dd").format(DateFormat('dd MMMM y', 'id_ID').parse(awalIzin));
       request.fields['akhir_izin'] = DateFormat("yyyy-MM-dd").format(DateFormat('dd MMMM y', 'id_ID').parse(akhirIzin));
 
-      // Tambahkan file
       if (bukti.isNotEmpty) {
-        var file = bukti[0]; // Ambil elemen pertama dari daftar file
+        var file = bukti[0];
         var fileStream = http.ByteStream.fromBytes(file.bytes!);
         var length = file.size;
 
@@ -35,7 +33,6 @@ class PerizinanModel {
           filename: file.name,
         );
 
-        // Tambahkan file ke dalam request
         request.files.add(multipartFile);
       }
 

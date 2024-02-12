@@ -75,6 +75,7 @@ class _EditJurnalView extends State<EditJurnalPage> {
                                           SizedBox(
                                             width: double.infinity,
                                             child: FormBuilderFilePicker(
+                                              withData: true,
                                               name: "images",
                                               allowMultiple: false,
                                               maxFiles: 1,

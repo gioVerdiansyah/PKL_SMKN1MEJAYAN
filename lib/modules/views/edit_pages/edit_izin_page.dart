@@ -160,6 +160,7 @@ class _IzinView extends State<EditIzinPage> {
                                     ),
                                   ),
                                   FormBuilderFilePicker(
+                                    withData: true,
                                     name: "images",
                                     allowMultiple: false,
                                     maxFiles: 1,
