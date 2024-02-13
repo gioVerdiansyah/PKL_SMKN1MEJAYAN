@@ -46,7 +46,7 @@ class _EditProfileView extends State<EditProfilePage> {
                       Column(
                         children: [
                           Image.network(
-                            "${dotenv.get('APP_URL')}/${GetStorage().read('dataLogin')['user']['photo_profile']}",
+                            "${GetStorage().read('dataLogin')['user']['photo_profile']}",
                             width: 75,
                             height: 75,
                           ),

@@ -35,7 +35,6 @@ class _IzinView extends State<IzinPage> {
       drawer: const SideBar(),
       body: Container(
           width: double.infinity,
-          alignment: Alignment.center,
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 20),
               child: FormBuilder(

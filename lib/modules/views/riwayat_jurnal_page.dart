@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:pkl_smkn1mejayan/model/jurnal_model.dart';
-import 'package:pkl_smkn1mejayan/modules/views/components/Utility.dart';
+import 'package:pkl_smkn1mejayan/modules/views/components/utility.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/pagination_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/detail_pages/detail_jurnal_page.dart';

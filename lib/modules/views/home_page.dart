@@ -71,15 +71,16 @@ class _HomeView extends State<HomePage> {
     return hari;
   }
 
-  int calculationOfReturnTime(String workingHours) {
+  String calculationOfReturnTime(String workingHours) {
     DateTime currentTime = DateTime.now();
     List<String> hours = workingHours.split(" - ");
     String endTimeStr = hours[1];
     DateTime endTime = DateTime.parse(currentTime.toString().split(" ")[0] + " " + endTimeStr);
 
     int remainingHours = endTime.difference(currentTime).inHours;
+    int remainingMinute = endTime.difference(currentTime).inMinutes;
 
-    return remainingHours;
+    return "$remainingHours jam $remainingMinute menit";
   }
 
   @override
@@ -297,7 +298,7 @@ class _HomeView extends State<HomePage> {
                                                   artDialogArgs: ArtDialogArgs(
                                                       denyButtonText: "Cancel",
                                                       title: "Apakah Anda yakin?",
-                                                      text: "Masih tersisa ${calculationOfReturnTime(widget.box.read('dataLogin')['user'][getDay().toLowerCase()])} jam untuk pulang, apakah Anda yakin "
+                                                      text: "Masih tersisa ${calculationOfReturnTime(widget.box.read('dataLogin')['user'][getDay().toLowerCase()])} untuk pulang, apakah Anda yakin "
                                                           "ingin pulang?",
                                                       confirmButtonText: "Yes",
                                                       type: ArtSweetAlertType.warning));

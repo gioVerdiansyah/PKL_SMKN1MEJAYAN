@@ -43,7 +43,6 @@ class _IzinView extends State<EditIzinPage> {
 
             return Container(
                 width: double.infinity,
-                alignment: Alignment.center,
                 child: SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: FormBuilder(

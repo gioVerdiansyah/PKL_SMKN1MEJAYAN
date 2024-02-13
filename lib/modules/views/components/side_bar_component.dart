@@ -26,7 +26,7 @@ class SideBar extends StatelessWidget {
               child: Row(
                 children: [
                   Image.network(
-                    "${dotenv.get('APP_URL')}/${user['photo_profile']}",
+                    "${user['photo_profile']}",
                     width: 75,
                     height: 75,
                   ),

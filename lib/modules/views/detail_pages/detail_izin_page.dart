@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pkl_smkn1mejayan/modules/views/components/Utility.dart';
+import 'package:pkl_smkn1mejayan/modules/views/components/utility.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
 
 import '../../../routes/api_route.dart';
@@ -94,12 +94,26 @@ class DetailIzinPage extends StatelessWidget {
                                         ),
                                       ),
                                       DescriptionText(teks: data['alasan'], len: 300),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text("Izin selama: ", style: TextStyle(color: Color.fromRGBO(52, 53, 65,
+                                                1))),
+                                            Text(
+                                              getDifferentDayInInt(data['awal_izin'], data['akhir_izin']),
+                                              style: const TextStyle(color: Color.fromRGBO(52, 53, 65, 1)),
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                       if (data['status'] != '0')
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             const Padding(
-                                              padding: EdgeInsets.symmetric(vertical: 10),
+                                              padding: EdgeInsets.only(bottom: 10),
                                               child: Divider(
                                                 color: Colors.green,
                                                 thickness: 2,
