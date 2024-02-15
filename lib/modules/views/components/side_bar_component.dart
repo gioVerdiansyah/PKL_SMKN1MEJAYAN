@@ -1,6 +1,5 @@
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pkl_smkn1mejayan/modules/views/login_page.dart';
 import 'package:pkl_smkn1mejayan/routes/app_route.dart';

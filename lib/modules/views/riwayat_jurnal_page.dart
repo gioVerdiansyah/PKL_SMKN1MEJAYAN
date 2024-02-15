@@ -1,15 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:pkl_smkn1mejayan/model/jurnal_model.dart';
+import 'package:pkl_smkn1mejayan/env.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/utility.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/app_bar_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/pagination_component.dart';
 import 'package:pkl_smkn1mejayan/modules/views/detail_pages/detail_jurnal_page.dart';
-import 'package:pkl_smkn1mejayan/routes/api_route.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'edit_pages/edit_jurnal_page.dart';
@@ -77,7 +76,7 @@ class _RiwayatJurnalView extends State<RiwayatJurnalPage> {
                                 child: TextButton.icon(
                                     onPressed: () async {
                                       launchUrl(Uri.parse(
-                                          "${dotenv.get('APP_URL')}/print/jurnal/${GetStorage().read('dataLogin')['user']['id']}"));
+                                          "${Env.APP_URL}/print/jurnal/${GetStorage().read('dataLogin')['user']['id']}"));
                                     },
                                     icon: const Icon(Icons.print),
                                     label: const Text("Cetak "
