@@ -71,6 +71,21 @@ class _HomeView extends State<HomePage> {
     return hari;
   }
 
+  bool canPulang(String workingHours){
+    DateTime currentTime = DateTime.now();
+    List<String> hours = workingHours.split(" - ");
+    String endTimeStr = hours[1];
+    DateTime endTime = DateTime.parse(currentTime.toString().split(" ")[0] + " " + endTimeStr);
+
+    int remainingHours = endTime.difference(currentTime).inHours;
+    int remainingMinute = endTime.difference(currentTime).inMinutes;
+
+    if(remainingMinute > 0 && remainingHours > 0){
+      return false;
+    }
+    return true;
+  }
+
   String calculationOfReturnTime(String workingHours) {
     DateTime currentTime = DateTime.now();
     List<String> hours = workingHours.split(" - ");
@@ -292,22 +307,57 @@ class _HomeView extends State<HomePage> {
                                                 backgroundColor:
                                                     MaterialStatePropertyAll(Color.fromRGBO(239, 80, 107, 1))),
                                             onPressed: () async {
-                                              ArtDialogResponse response = await ArtSweetAlert.show(
-                                                  barrierDismissible: false,
-                                                  context: context,
-                                                  artDialogArgs: ArtDialogArgs(
-                                                      denyButtonText: "Cancel",
-                                                      title: "Apakah Anda yakin?",
-                                                      text: "Masih tersisa ${calculationOfReturnTime(widget.box.read('dataLogin')['user'][getDay().toLowerCase()])} untuk pulang, apakah Anda yakin "
-                                                          "ingin pulang?",
-                                                      confirmButtonText: "Yes",
-                                                      type: ArtSweetAlertType.warning));
+                                              if(!canPulang(widget.box.read('dataLogin')['user'][getDay().toLowerCase()])) {
+                                                ArtDialogResponse response = await ArtSweetAlert.show(
+                                                    barrierDismissible: false,
+                                                    context: context,
+                                                    artDialogArgs: ArtDialogArgs(
+                                                        denyButtonText: "Cancel",
+                                                        title: "Apakah Anda yakin?",
+                                                        text: "Masih tersisa ${calculationOfReturnTime(
+                                                            widget.box.read('dataLogin')['user'][getDay()
+                                                                .toLowerCase()])} untuk pulang, apakah Anda yakin "
+                                                            "ingin pulang?",
+                                                        confirmButtonText: "Yes",
+                                                        type: ArtSweetAlertType.warning));
 
-                                              if (response == null) {
-                                                return;
-                                              }
+                                                if (response == null) {
+                                                  return;
+                                                }
 
-                                              if (response.isTapConfirmButton) {
+                                                if (response.isTapConfirmButton) {
+                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                    content: const Text('Processing Data'),
+                                                    backgroundColor: Colors.green.shade300,
+                                                  ));
+                                                  var absensi = await Absen.sendAbsenPulang(isWFH);
+                                                  print(absensi);
+                                                  if (absensi['status'] == 1 || absensi['status'] == 4) {
+                                                    if (context.mounted) {
+                                                      ArtSweetAlert.show(
+                                                        context: context,
+                                                        artDialogArgs: ArtDialogArgs(
+                                                          type: ArtSweetAlertType.success,
+                                                          title: "Berhasil Absen Pulang!",
+                                                          text: absensi['message'],
+                                                        ),
+                                                      );
+                                                    }
+                                                  } else {
+                                                    if (context.mounted) {
+                                                      ArtSweetAlert.show(
+                                                        context: context,
+                                                        artDialogArgs: ArtDialogArgs(
+                                                          type: ArtSweetAlertType.danger,
+                                                          title: "Gagal Absen Pulang!",
+                                                          text: absensi['message'],
+                                                        ),
+                                                      );
+                                                    }
+                                                  }
+                                                  return;
+                                                }
+                                              }else{
                                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                                   content: const Text('Processing Data'),
                                                   backgroundColor: Colors.green.shade300,
