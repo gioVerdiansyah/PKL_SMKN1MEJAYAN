@@ -17,9 +17,9 @@ class DetailJurnalPage extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 5),
               child: Center(
                 child: Column(
                   children: [

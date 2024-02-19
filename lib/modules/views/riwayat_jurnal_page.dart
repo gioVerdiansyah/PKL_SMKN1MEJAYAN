@@ -54,7 +54,7 @@ class _RiwayatJurnalView extends State<RiwayatJurnalPage> {
                     child: Text("Belum ada riwayat jurnal PKL"),
                   )
                 : Container(
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                    margin: const EdgeInsets.all(5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

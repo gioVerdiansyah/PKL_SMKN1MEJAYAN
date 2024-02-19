@@ -30,9 +30,9 @@ class _JurnalView extends State<JurnalPage> {
         children: [
           Container(
             width: double.infinity,
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            margin: const EdgeInsets.symmetric(vertical: 10),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
               child: Column(
                 children: [
                   Padding(

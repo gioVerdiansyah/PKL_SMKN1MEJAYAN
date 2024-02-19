@@ -17,9 +17,9 @@ class DetailIzinPage extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 5),
               child: Center(
                 child: Column(
                   children: [
@@ -33,17 +33,20 @@ class DetailIzinPage extends StatelessWidget {
                         padding: const EdgeInsets.all(15.0),
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: [
-                                    const Text("status: "),
-                                    Text(
-                                      getStatusName(data['status']),
-                                      style: TextStyle(color: getColorStatus(data['status'])),
-                                    ),
-                                  ],
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 5),
+                                  child: Row(
+                                    children: [
+                                      const Text("status: "),
+                                      Text(
+                                        getStatusName(data['status']),
+                                        style: TextStyle(color: getColorStatus(data['status'])),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 if (data['status'] != '0')
                                   Text(

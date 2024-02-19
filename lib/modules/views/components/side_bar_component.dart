@@ -1,6 +1,7 @@
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pkl_smkn1mejayan/modules/views/components/utility.dart';
 import 'package:pkl_smkn1mejayan/modules/views/login_page.dart';
 import 'package:pkl_smkn1mejayan/routes/app_route.dart';
 
@@ -37,7 +38,7 @@ class SideBar extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "${user['name']} (${user['absen']})",
+                          "${truncateAndCapitalizeLastWord(user['name'])} (${user['absen']})",
                           style: TextStyle(fontSize: 18, color: Colors.white),
                           textAlign: TextAlign.left,
                         ),

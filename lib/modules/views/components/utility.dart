@@ -7,6 +7,23 @@ String truncatedText(String data, {int len = 200}) {
   return truncatedKegiatan;
 }
 
+String truncateAndCapitalizeLastWord(String text, {int? maxLength}) {
+  maxLength = maxLength ?? 10;
+  if (text.length <= maxLength) {
+    return text;
+  }
+
+  List<String> words = text.split(' ');
+
+  if (words.last.length > 1) {
+    words[words.length - 1] = words.last[0].toUpperCase();
+  }
+
+  String truncatedText = words.join(' ');
+
+  return truncatedText;
+}
+
 String getStatusName(status) {
   if (status == '1') {
     return 'Disetujui';

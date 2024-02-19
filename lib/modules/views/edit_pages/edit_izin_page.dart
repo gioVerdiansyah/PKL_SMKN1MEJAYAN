@@ -50,9 +50,9 @@ class _IzinView extends State<EditIzinPage> {
                       child: Column(
                         children: [
                           Card(
-                            margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                            margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                               child: Column(
                                 children: [
                                   const Text(

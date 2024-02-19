@@ -35,7 +35,7 @@ class _HomeView extends State<HomePage> {
     super.initState();
     updateDateTime();
     // Use a Timer.periodic and store it in a class variable
-    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
+    timer = Timer.periodic(const Duration(seconds: 1000), (Timer t) {
       if (mounted) {
         updateDateTime();
       } else {
