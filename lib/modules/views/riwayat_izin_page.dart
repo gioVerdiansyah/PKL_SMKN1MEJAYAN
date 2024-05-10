@@ -148,7 +148,7 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
                                                         style: const ButtonStyle(
                                                             backgroundColor:
                                                                 MaterialStatePropertyAll(Color.fromRGBO(255, 202, 44, 1))),
-                                                        child: const Icon(Icons.edit_note)),
+                                                        child: const Icon(Icons.edit_note, color: Colors.white,)),
                                                   Padding(
                                                     padding: const EdgeInsets.only(top: 10),
                                                     child: ElevatedButton(
@@ -161,7 +161,7 @@ class _RiwayatIzinView extends State<RiwayatIzinPage> {
                                                         },
                                                         style: const ButtonStyle(
                                                             backgroundColor: MaterialStatePropertyAll(Colors.blueAccent)),
-                                                        child: const Icon(Icons.list)),
+                                                        child: const Icon(Icons.list, color: Colors.white,)),
                                                   ),
                                                 ],
                                               )

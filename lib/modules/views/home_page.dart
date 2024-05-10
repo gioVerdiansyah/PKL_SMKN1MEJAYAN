@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -35,7 +36,7 @@ class _HomeView extends State<HomePage> {
     super.initState();
     updateDateTime();
     // Use a Timer.periodic and store it in a class variable
-    timer = Timer.periodic(const Duration(seconds: 1000), (Timer t) {
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
       if (mounted) {
         updateDateTime();
       } else {
@@ -115,217 +116,275 @@ class _HomeView extends State<HomePage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Text(
-                        currentTime,
-                        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: textColor),
+                      FadeInDown(
+                        duration: const Duration(seconds: 1),
+                        child: Text(
+                          currentTime,
+                          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: textColor),
+                        ),
                       ),
-                      Text(
-                        currentDate,
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: textColor),
+                      FadeInDown(
+                        duration: const Duration(seconds: 1),
+                        delay: const Duration(milliseconds: 500),
+                        from: 150,
+                        child: Text(
+                          currentDate,
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: textColor),
+                        ),
                       ),
-                      Card(
-                        elevation: 5,
-                        margin: const EdgeInsets.only(top: 15),
-                        child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    const Text(
-                                      "PKL di: ",
-                                      style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 15),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 5),
-                                      child: Text(
-                                        widget.box.read('dataLogin')?['dudi']?['nama'] ?? "",
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          color: textColor,
-                                          fontWeight: FontWeight.w600,
+                      FadeInDown(
+                        duration: const Duration(seconds: 1),
+                        delay: const Duration(milliseconds: 1000),
+                        child: Card(
+                          elevation: 5,
+                          margin: const EdgeInsets.only(top: 15),
+                          child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: Center(
+                                  child: Column(
+                                    children: [
+                                      const Text(
+                                        "PKL di: ",
+                                        style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 15),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                                        child: Text(
+                                          widget.box.read('dataLogin')?['dudi']?['nama'] ?? "",
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            color: textColor,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          textAlign: TextAlign.center,
                                         ),
-                                        textAlign: TextAlign.center,
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(10, 8, 10, 3),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              const Text("Pemimbing: "),
-                                              Text("${widget.box.read('dataLogin')['guru']['nama']}")
-                                            ],
-                                          ),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            children: [
-                                              const Text("Pemimpin DuDi: "),
-                                              Text("${widget.box.read('dataLogin')['dudi']['pemimpin']}")
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )),
-                      ),
-                      Card(
-                        elevation: 5,
-                        margin: const EdgeInsets.only(top: 15),
-                        child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: SizedBox(
-                              width: 330,
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      getDay(),
-                                      style: const TextStyle(color: textColor, fontWeight: FontWeight.w600, fontSize: 18),
-                                    ),
-                                    Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 5),
-                                        child: Column(
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(10, 8, 10, 3),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text(
-                                              'Jam Masuk',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: textColor,
-                                                fontWeight: FontWeight.w600,
+                                            Expanded(
+                                              flex: 50,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text("Pemimbing: "),
+                                                  Text("${widget.box.read('dataLogin')['guru']['nama']}")
+                                                ],
                                               ),
                                             ),
-                                            Text(
-                                              widget.box.read('dataLogin')['user'][getDay().toLowerCase()] ??
-                                                  "00:00 - "
-                                                      "00:00",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
+                                            Expanded(
+                                              flex: 50,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                children: [
+                                                  const Text("Pemimpin DuDi: "),
+                                                  Text("${widget.box.read('dataLogin')['dudi']['pemimpin']}")
+                                                ],
+                                              ),
                                             ),
                                           ],
-                                        ))
-                                  ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            )),
+                              )),
+                        ),
                       ),
-                      Container(
+                      FadeInDown(
+                        duration: const Duration(seconds: 1),
+                        delay: const Duration(milliseconds: 1500),
+                        child: Card(
+                          elevation: 5,
                           margin: const EdgeInsets.only(top: 15),
-                          child: SizedBox(
-                              width: double.infinity,
-                              child: FormBuilder(
-                                child: Column(
-                                  children: [
-                                    Card(
-                                        margin: EdgeInsets.zero,
-                                        elevation: 5,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 80),
-                                          child: FormBuilderCheckbox(
-                                            title: const Center(
-                                              child: Text(
-                                                "Work From Home",
-                                                style:
-                                                    TextStyle(color: textColor, fontSize: 15, fontWeight: FontWeight.bold),
+                          child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: SizedBox(
+                                width: 330,
+                                child: Center(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        getDay(),
+                                        style: const TextStyle(color: textColor, fontWeight: FontWeight.w600, fontSize: 18),
+                                      ),
+                                      Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 5),
+                                          child: Column(
+                                            children: [
+                                              const Text(
+                                                'Jam Masuk',
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: textColor,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
+                                              Text(
+                                                widget.box.read('dataLogin')['user'][getDay().toLowerCase()] ??
+                                                    "00:00 - "
+                                                        "00:00",
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w600, fontSize: 18, color: textColor),
+                                              ),
+                                            ],
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                              )),
+                        ),
+                      ),
+                      FadeInDown(
+                        duration: const Duration(seconds: 1),
+                        delay: const Duration(milliseconds: 2000),
+                        child: Container(
+                            margin: const EdgeInsets.only(top: 15),
+                            child: SizedBox(
+                                width: double.infinity,
+                                child: FormBuilder(
+                                  child: Column(
+                                    children: [
+                                      Card(
+                                          margin: EdgeInsets.zero,
+                                          elevation: 5,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 80),
+                                            child: FormBuilderCheckbox(
+                                              title: const Center(
+                                                child: Text(
+                                                  "Work From Home",
+                                                  style:
+                                                      TextStyle(color: textColor, fontSize: 15, fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                              name: "wfh",
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  isWFH = value ?? false;
+                                                });
+                                              },
                                             ),
-                                            name: "wfh",
-                                            onChanged: (value) {
-                                              setState(() {
-                                                isWFH = value ?? false;
-                                              });
-                                            },
-                                          ),
-                                        )),
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 15),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          ElevatedButton.icon(
-                                              icon: const Icon(Icons.login),
-                                              onPressed: () async {
-                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                  content: const Text('Processing Data'),
-                                                  backgroundColor: Colors.green.shade300,
-                                                ));
-                                                var absensi = await Absen.sendAbsen(isWFH);
-                                                print(absensi);
-                                                if (absensi['success']) {
-                                                  if (absensi['status'] == 2 ||
-                                                      absensi['status'] == 3 ||
-                                                      absensi['status'] == 5) {
-                                                    if (context.mounted) {
-                                                      ArtSweetAlert.show(
-                                                        context: context,
-                                                        artDialogArgs: ArtDialogArgs(
-                                                          type: ArtSweetAlertType.warning,
-                                                          title: "Berhasil Absen Namun!",
-                                                          text: absensi['message'],
-                                                        ),
-                                                      );
+                                          )),
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 15),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            ElevatedButton.icon(
+                                                icon: const Icon(Icons.login),
+                                                onPressed: () async {
+                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                    content: const Text('Processing Data'),
+                                                    backgroundColor: Colors.green.shade300,
+                                                  ));
+                                                    var absensi = await Absen.sendAbsen(isWFH);
+                                                  print(absensi);
+                                                  if (absensi['success']) {
+                                                    if (absensi['status'] == 2 ||
+                                                        absensi['status'] == 3 ||
+                                                        absensi['status'] == 5) {
+                                                      if (context.mounted) {
+                                                        ArtSweetAlert.show(
+                                                          context: context,
+                                                          artDialogArgs: ArtDialogArgs(
+                                                            type: ArtSweetAlertType.warning,
+                                                            title: "Berhasil Absen Namun!",
+                                                            text: absensi['message'],
+                                                          ),
+                                                        );
+                                                      }
+                                                    } else if (absensi['status'] == 1 || absensi['status'] == 4) {
+                                                      if (context.mounted) {
+                                                        ArtSweetAlert.show(
+                                                          context: context,
+                                                          artDialogArgs: ArtDialogArgs(
+                                                            type: ArtSweetAlertType.success,
+                                                            title: "Berhasil Absen!",
+                                                            text: absensi['message'],
+                                                          ),
+                                                        );
+                                                      }
                                                     }
-                                                  } else if (absensi['status'] == 1 || absensi['status'] == 4) {
+                                                  } else {
                                                     if (context.mounted) {
+                                                      widget.box.write('hasErrorAbsen', true);
                                                       ArtSweetAlert.show(
                                                         context: context,
                                                         artDialogArgs: ArtDialogArgs(
-                                                          type: ArtSweetAlertType.success,
-                                                          title: "Berhasil Absen!",
+                                                          type: ArtSweetAlertType.danger,
+                                                          title: "Gagal Absen!",
                                                           text: absensi['message'],
                                                         ),
                                                       );
                                                     }
                                                   }
-                                                } else {
-                                                  if (context.mounted) {
-                                                    widget.box.write('hasErrorAbsen', true);
-                                                    ArtSweetAlert.show(
+                                                },
+                                                label: const Padding(
+                                                  padding: EdgeInsets.all(10.5),
+                                                  child: Text("Absen"),
+                                                ),
+                                            ),
+                                            ElevatedButton.icon(
+                                              style: const ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStatePropertyAll(Color.fromRGBO(239, 80, 107, 1))),
+                                              onPressed: () async {
+                                                if(!canPulang(widget.box.read('dataLogin')['user'][getDay().toLowerCase()])) {
+                                                  ArtDialogResponse response = await ArtSweetAlert.show(
+                                                      barrierDismissible: false,
                                                       context: context,
                                                       artDialogArgs: ArtDialogArgs(
-                                                        type: ArtSweetAlertType.danger,
-                                                        title: "Gagal Absen!",
-                                                        text: absensi['message'],
-                                                      ),
-                                                    );
+                                                          denyButtonText: "Cancel",
+                                                          title: "Apakah Anda yakin?",
+                                                          text: "Masih tersisa ${calculationOfReturnTime(
+                                                              widget.box.read('dataLogin')['user'][getDay()
+                                                                  .toLowerCase()])} untuk pulang, apakah Anda yakin "
+                                                              "ingin pulang?",
+                                                          confirmButtonText: "Yes",
+                                                          type: ArtSweetAlertType.warning));
+
+                                                  if (response == null) {
+                                                    return;
                                                   }
-                                                }
-                                              },
-                                              label: const Padding(
-                                                padding: EdgeInsets.all(10.5),
-                                                child: Text("Absen"),
-                                              )),
-                                          ElevatedButton.icon(
-                                            style: const ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStatePropertyAll(Color.fromRGBO(239, 80, 107, 1))),
-                                            onPressed: () async {
-                                              if(!canPulang(widget.box.read('dataLogin')['user'][getDay().toLowerCase()])) {
-                                                ArtDialogResponse response = await ArtSweetAlert.show(
-                                                    barrierDismissible: false,
-                                                    context: context,
-                                                    artDialogArgs: ArtDialogArgs(
-                                                        denyButtonText: "Cancel",
-                                                        title: "Apakah Anda yakin?",
-                                                        text: "Masih tersisa ${calculationOfReturnTime(
-                                                            widget.box.read('dataLogin')['user'][getDay()
-                                                                .toLowerCase()])} untuk pulang, apakah Anda yakin "
-                                                            "ingin pulang?",
-                                                        confirmButtonText: "Yes",
-                                                        type: ArtSweetAlertType.warning));
 
-                                                if (response == null) {
-                                                  return;
-                                                }
-
-                                                if (response.isTapConfirmButton) {
+                                                  if (response.isTapConfirmButton) {
+                                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                      content: const Text('Processing Data'),
+                                                      backgroundColor: Colors.green.shade300,
+                                                    ));
+                                                    var absensi = await Absen.sendAbsenPulang(isWFH);
+                                                    print(absensi);
+                                                    if (absensi['status'] == 1 || absensi['status'] == 4) {
+                                                      if (context.mounted) {
+                                                        ArtSweetAlert.show(
+                                                          context: context,
+                                                          artDialogArgs: ArtDialogArgs(
+                                                            type: ArtSweetAlertType.success,
+                                                            title: "Berhasil Absen Pulang!",
+                                                            text: absensi['message'],
+                                                          ),
+                                                        );
+                                                      }
+                                                    } else {
+                                                      if (context.mounted) {
+                                                        ArtSweetAlert.show(
+                                                          context: context,
+                                                          artDialogArgs: ArtDialogArgs(
+                                                            type: ArtSweetAlertType.danger,
+                                                            title: "Gagal Absen Pulang!",
+                                                            text: absensi['message'],
+                                                          ),
+                                                        );
+                                                      }
+                                                    }
+                                                    return;
+                                                  }
+                                                }else{
                                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                                     content: const Text('Processing Data'),
                                                     backgroundColor: Colors.green.shade300,
@@ -357,123 +416,96 @@ class _HomeView extends State<HomePage> {
                                                   }
                                                   return;
                                                 }
-                                              }else{
-                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                  content: const Text('Processing Data'),
-                                                  backgroundColor: Colors.green.shade300,
-                                                ));
-                                                var absensi = await Absen.sendAbsenPulang(isWFH);
-                                                print(absensi);
-                                                if (absensi['status'] == 1 || absensi['status'] == 4) {
-                                                  if (context.mounted) {
-                                                    ArtSweetAlert.show(
-                                                      context: context,
-                                                      artDialogArgs: ArtDialogArgs(
-                                                        type: ArtSweetAlertType.success,
-                                                        title: "Berhasil Absen Pulang!",
-                                                        text: absensi['message'],
-                                                      ),
-                                                    );
-                                                  }
-                                                } else {
-                                                  if (context.mounted) {
-                                                    ArtSweetAlert.show(
-                                                      context: context,
-                                                      artDialogArgs: ArtDialogArgs(
-                                                        type: ArtSweetAlertType.danger,
-                                                        title: "Gagal Absen Pulang!",
-                                                        text: absensi['message'],
-                                                      ),
-                                                    );
-                                                  }
-                                                }
-                                                return;
-                                              }
-                                            },
-                                            icon: const Icon(Icons.logout),
-                                            label: const Padding(padding: EdgeInsets.all(10.5), child: Text("Pulang")),
-                                          )
-                                        ],
+                                              },
+                                              icon: const Icon(Icons.logout, color: Colors.white,),
+                                              label: const Padding(padding: EdgeInsets.all(10.5), child: Text("Pulang", style: TextStyle(color: Colors.white),)),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(top: 10),
-                                    //   child: Card(
-                                    //     color: const Color.fromRGBO(252,198,43, 1),
-                                    //     child: InkWell(
-                                    //       onTap: (){
-                                    //         Navigator.pushNamed(context, AppRoute.editAbsenRoute);
-                                    //       },
-                                    //       child: const SizedBox(
-                                    //         height: 40,
-                                    //         width: double.infinity,
-                                    //         child: Center(
-                                    //           child: Text("Edit Absen", style: TextStyle(
-                                    //             fontWeight: FontWeight.bold,
-                                    //             fontSize: 15,
-                                    //             color: Colors.white,
-                                    //           )),
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 15),
-                                      child: Column(
-                                        children: [
-                                          const Center(
-                                            child: Text("Posisi Anda",
-                                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                                textAlign: TextAlign.center),
-                                          ),
-                                          SizedBox(
-                                            height: 200,
-                                            child: Card(
-                                                elevation: 5,
-                                                child: FlutterMap(
-                                                  options: MapOptions(
-                                                    initialCenter:
-                                                        LatLng(positionData['latitude'], positionData['longitude']),
-                                                    initialZoom: 15.5,
-                                                  ),
-                                                  children: [
-                                                    TileLayer(
-                                                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                                      userAgentPackageName: 'com.pklsmkn1mejayan.app',
-                                                    ),
-                                                    MarkerLayer(
-                                                      markers: [
-                                                        Marker(
-                                                            width: 40.0,
-                                                            height: 40.0,
-                                                            point: LatLng(
-                                                                positionData['latitude'], positionData['longitude']),
-                                                            child: const Icon(
-                                                              Icons.location_on,
-                                                              color: Colors.red,
-                                                              size: 40.0,
-                                                            )),
-                                                      ],
-                                                    ),
-                                                    RichAttributionWidget(
-                                                      attributions: [
-                                                        TextSourceAttribution(
-                                                          'OpenStreetMap contributors',
-                                                          onTap: () =>
-                                                              launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.only(top: 10),
+                                      //   child: Card(
+                                      //     color: const Color.fromRGBO(252,198,43, 1),
+                                      //     child: InkWell(
+                                      //       onTap: (){
+                                      //         Navigator.pushNamed(context, AppRoute.editAbsenRoute);
+                                      //       },
+                                      //       child: const SizedBox(
+                                      //         height: 40,
+                                      //         width: double.infinity,
+                                      //         child: Center(
+                                      //           child: Text("Edit Absen", style: TextStyle(
+                                      //             fontWeight: FontWeight.bold,
+                                      //             fontSize: 15,
+                                      //             color: Colors.white,
+                                      //           )),
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      FadeInDown(
+                                        duration: const Duration(seconds: 1),
+                                        delay: const Duration(milliseconds: 2500),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(top: 15),
+                                          child: Column(
+                                            children: [
+                                              const Center(
+                                                child: Text("Posisi Anda",
+                                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                                    textAlign: TextAlign.center),
+                                              ),
+                                              SizedBox(
+                                                height: 200,
+                                                child: Card(
+                                                    elevation: 5,
+                                                    child: FlutterMap(
+                                                      options: MapOptions(
+                                                        initialCenter:
+                                                            LatLng(positionData['latitude'], positionData['longitude']),
+                                                        initialZoom: 15.5,
+                                                      ),
+                                                      children: [
+                                                        TileLayer(
+                                                          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                                          userAgentPackageName: 'com.pklsmkn1mejayan.app',
+                                                        ),
+                                                        MarkerLayer(
+                                                          markers: [
+                                                            Marker(
+                                                                width: 40.0,
+                                                                height: 40.0,
+                                                                point: LatLng(
+                                                                    positionData['latitude'], positionData['longitude']),
+                                                                child: const Icon(
+                                                                  Icons.location_on,
+                                                                  color: Colors.red,
+                                                                  size: 40.0,
+                                                                )),
+                                                          ],
+                                                        ),
+                                                        RichAttributionWidget(
+                                                          attributions: [
+                                                            TextSourceAttribution(
+                                                              'OpenStreetMap contributors',
+                                                              onTap: () =>
+                                                                  launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ],
-                                                    ),
-                                                  ],
-                                                )),
+                                                    )),
+                                              ),
+                                            ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              )))
+                                    ],
+                                  ),
+                                ))),
+                      )
                     ],
                   ),
                 )),
