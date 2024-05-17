@@ -1,6 +1,7 @@
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pkl_smkn1mejayan/model/login_model.dart';
 import 'package:pkl_smkn1mejayan/modules/views/components/utility.dart';
 import 'package:pkl_smkn1mejayan/modules/views/login_page.dart';
 import 'package:pkl_smkn1mejayan/routes/app_route.dart';
@@ -25,8 +26,9 @@ class SideBar extends StatelessWidget {
               decoration: const BoxDecoration(color: Colors.green),
               child: Row(
                 children: [
-                  Image.network(
-                    "${user['photo_profile']}",
+                  FadeInImage(
+                    placeholder: const AssetImage('assets/images/loading.gif'),
+                    image: NetworkImage("${user['photo_profile']}"),
                     width: 75,
                     height: 75,
                   ),
@@ -100,13 +102,25 @@ class SideBar extends StatelessWidget {
               }
 
               if (response.isTapConfirmButton) {
-                GetStorage().remove('dataLogin');
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                  (route) => false,
-                );
-                return;
+                var response = await PostLoginModel.logout();
+
+                if (response['success']) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                    (route) => false,
+                  );
+                  return;
+                } else {
+                  ArtSweetAlert.show(
+                      barrierDismissible: false,
+                      context: context,
+                      artDialogArgs: ArtDialogArgs(
+                          title: "Ada Kesalahan",
+                          text: response['message'],
+                          confirmButtonText: "Ya",
+                          type: ArtSweetAlertType.danger));
+                }
               }
             },
           ),

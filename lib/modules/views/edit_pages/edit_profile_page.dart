@@ -43,8 +43,9 @@ class _EditProfileView extends State<EditProfilePage> {
                       ),
                       Column(
                         children: [
-                          Image.network(
-                            "${GetStorage().read('dataLogin')['user']['photo_profile']}",
+                          FadeInImage(
+                            placeholder: const AssetImage('assets/images/loading.gif'),
+                            image: NetworkImage("${GetStorage().read('dataLogin')['user']['photo_profile']}",),
                             width: 75,
                             height: 75,
                           ),

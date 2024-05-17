@@ -46,9 +46,8 @@ class DetailJurnalPage extends StatelessWidget {
                                   ],
                                 ),
                                 if (data['status'] != '3' && data['status'] != '0')
-                                  Text(
-                                      "${getStatusName(data['status'])} pada : ${DateFormat('dd MMM At HH:mm:ss', 'id_ID'
-                                          '').format(DateTime.parse(data['updated_at']).toLocal())}")
+                                  Text("${getStatusName(data['status'])} pada : ${DateFormat('dd MMM At HH:mm:ss', 'id_ID'
+                                      '').format(DateTime.parse(data['updated_at']).toLocal())}")
                               ],
                             ),
                             Padding(
@@ -80,8 +79,9 @@ class DetailJurnalPage extends StatelessWidget {
                                           ),
                                           child: (data['bukti'] == null)
                                               ? const Text('No Image...')
-                                              : Image.network(
-                                                  "${ApiRoute.storageRoute}/${data['bukti']}",
+                                              : FadeInImage(
+                                                  placeholder: const AssetImage('assets/images/loading.gif'),
+                                                  image: NetworkImage("${ApiRoute.storageRoute}/${data['bukti']}"),
                                                   width: 150,
                                                 ),
                                         ),

@@ -94,7 +94,7 @@ class _HomeView extends State<HomePage> {
     DateTime endTime = DateTime.parse(currentTime.toString().split(" ")[0] + " " + endTimeStr);
 
     int remainingHours = endTime.difference(currentTime).inHours;
-    int remainingMinute = endTime.difference(currentTime).inMinutes;
+    int remainingMinute = endTime.difference(currentTime).inMinutes % 60;
 
     return "$remainingHours jam $remainingMinute menit";
   }
@@ -384,37 +384,6 @@ class _HomeView extends State<HomePage> {
                                                     }
                                                     return;
                                                   }
-                                                }else{
-                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                    content: const Text('Processing Data'),
-                                                    backgroundColor: Colors.green.shade300,
-                                                  ));
-                                                  var absensi = await Absen.sendAbsenPulang(isWFH);
-                                                  print(absensi);
-                                                  if (absensi['status'] == 1 || absensi['status'] == 4) {
-                                                    if (context.mounted) {
-                                                      ArtSweetAlert.show(
-                                                        context: context,
-                                                        artDialogArgs: ArtDialogArgs(
-                                                          type: ArtSweetAlertType.success,
-                                                          title: "Berhasil Absen Pulang!",
-                                                          text: absensi['message'],
-                                                        ),
-                                                      );
-                                                    }
-                                                  } else {
-                                                    if (context.mounted) {
-                                                      ArtSweetAlert.show(
-                                                        context: context,
-                                                        artDialogArgs: ArtDialogArgs(
-                                                          type: ArtSweetAlertType.danger,
-                                                          title: "Gagal Absen Pulang!",
-                                                          text: absensi['message'],
-                                                        ),
-                                                      );
-                                                    }
-                                                  }
-                                                  return;
                                                 }
                                               },
                                               icon: const Icon(Icons.logout, color: Colors.white,),

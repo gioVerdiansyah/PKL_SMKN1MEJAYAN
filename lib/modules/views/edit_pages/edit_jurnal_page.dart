@@ -71,7 +71,11 @@ class _EditJurnalView extends State<EditJurnalPage> {
                                                 fontSize: 17
                                             )),
                                           ),
-                                          Image.network("${ApiRoute.storageRoute}/${dataJurnal['bukti']}", width: 200),
+                                          FadeInImage(
+                                            placeholder: const AssetImage('assets/images/loading.gif'),
+                                            image: NetworkImage("${ApiRoute.storageRoute}/${dataJurnal['bukti']}"),
+                                            width: 200,
+                                          ),
                                           SizedBox(
                                             width: double.infinity,
                                             child: FormBuilderFilePicker(

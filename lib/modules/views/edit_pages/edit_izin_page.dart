@@ -154,7 +154,11 @@ class _IzinView extends State<EditIzinPage> {
                                             fontSize: 17
                                           )),
                                         ),
-                                        Image.network("${ApiRoute.storageRoute}/${dataIzin['bukti']}", width: 300),
+                                        FadeInImage(
+                                          placeholder: const AssetImage('assets/images/loading.gif'),
+                                          image: NetworkImage("${ApiRoute.storageRoute}/${dataIzin['bukti']}"),
+                                          width: 300,
+                                        ),
                                       ],
                                     ),
                                   ),

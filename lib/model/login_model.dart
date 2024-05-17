@@ -53,4 +53,30 @@ class PostLoginModel {
       };
     }
   }
+
+  static Future logout() async{
+    GetStorage box = GetStorage();
+    try {
+      final Uri url = ApiRoute.logoutRoute;
+      print(box.read('dataLogin'));
+      var response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": ApiRoute.API_KEY,
+          'Authorization': "Bearer ${box.read('dataLogin')['token']}"
+        },
+      );
+
+      var data = json.decode(response.body);
+      if(data['success']){
+        box.erase();
+      }
+      return data;
+    }catch(e){
+      return {
+        'success': false, 'message': 'Ada kesalahan Server', "data": e
+      };
+    }
+  }
 }

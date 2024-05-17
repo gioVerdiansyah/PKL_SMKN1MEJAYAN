@@ -5,6 +5,7 @@ class ApiRoute{
   static final Uri storageRoute = Uri.parse("${Env.APP_URL}/storage");
 
   static final Uri loginRoute = Uri.parse("${Env.API_URL}/login");
+  static final Uri logoutRoute = Uri.parse("${Env.API_URL}/logout");
   static final Uri checkLoginRoute = Uri.parse('${Env.API_URL}/check-login');
   static final Uri updateAbsenRoute = Uri.parse('${Env.API_URL}/absensi/salah');
   static final Uri absenHadirRoute = Uri.parse('${Env.API_URL}/absensi/hadir');

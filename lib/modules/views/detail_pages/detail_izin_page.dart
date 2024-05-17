@@ -49,9 +49,8 @@ class DetailIzinPage extends StatelessWidget {
                                   ),
                                 ),
                                 if (data['status'] != '0')
-                                  Text(
-                                      "${getStatusName(data['status'])} pada : ${DateFormat('dd MMM At HH:mm:ss', 'id_ID'
-                                          '').format(DateTime.parse(data['updated_at']).toLocal())}")
+                                  Text("${getStatusName(data['status'])} pada : ${DateFormat('dd MMM At HH:mm:ss', 'id_ID'
+                                      '').format(DateTime.parse(data['updated_at']).toLocal())}")
                               ],
                             ),
                             Padding(
@@ -83,8 +82,9 @@ class DetailIzinPage extends StatelessWidget {
                                           ),
                                           child: (data['bukti'] == null)
                                               ? const Text('No Image...')
-                                              : Image.network(
-                                                  "${ApiRoute.storageRoute}/${data['bukti']}",
+                                              : FadeInImage(
+                                                  placeholder: const AssetImage('assets/images/loading.gif'),
+                                                  image: NetworkImage("${ApiRoute.storageRoute}/${data['bukti']}"),
                                                   width: 150,
                                                 ),
                                         ),
@@ -102,8 +102,8 @@ class DetailIzinPage extends StatelessWidget {
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text("Izin selama: ", style: TextStyle(color: Color.fromRGBO(52, 53, 65,
-                                                1))),
+                                            const Text("Izin selama: ",
+                                                style: TextStyle(color: Color.fromRGBO(52, 53, 65, 1))),
                                             Text(
                                               getDifferentDayInInt(data['awal_izin'], data['akhir_izin']),
                                               style: const TextStyle(color: Color.fromRGBO(52, 53, 65, 1)),
@@ -123,7 +123,10 @@ class DetailIzinPage extends StatelessWidget {
                                               ),
                                             ),
                                             const Text("Catatan Guru:",
-                                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,)),
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
                                             Padding(
                                               padding: const EdgeInsets.only(top: 5),
                                               child: DescriptionText(
